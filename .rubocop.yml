@@ -1,0 +1,28 @@
+require:
+  - rubocop-rails
+
+inherit_from:
+  - .rubocop_todo.yml
+
+AllCops:
+  TargetRubyVersion: 3.1
+  NewCops: enable
+  Exclude:
+    - 'bin/**/*'
+    - 'vendor/**/*'
+    - 'config/**/*'
+    - 'spec/rails_helper.rb'
+    - 'db/schema.rb'
+    - 'db/migrate/**/*'
+
+Style/Documentation:
+  Enabled: false
+
+Metrics/BlockLength:
+  AllowedMethods: ['describe', 'context', 'it']
+
+Style/ClassAndModuleChildren:
+  EnforcedStyle: compact
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
