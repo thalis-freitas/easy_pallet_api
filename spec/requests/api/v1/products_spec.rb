@@ -90,4 +90,25 @@ describe Api::V1::ProductsController, type: :request do
       end
     end
   end
+
+  describe 'DELETE /api/v1/products/:id' do
+    context 'with a valid product ID' do
+      before do
+        @product = create(:product)
+        delete "/api/v1/products/#{@product.id}"
+      end
+
+      it { expect(response).to have_http_status(:ok) }
+
+      it 'deletes the product' do
+        expect(Load.exists?(@product.id)).to be_falsey
+      end
+    end
+
+    context 'with an invalid product ID' do
+      before { delete '/api/v1/products/9999' }
+
+      it { expect(response).to have_http_status(:not_found) }
+    end
+  end
 end
