@@ -1,5 +1,6 @@
 class Api::V1::OrdersController < Api::V1::ApiController
   before_action :set_load, only: %i[index create]
+  before_action :set_order, only: %i[update]
 
   def index
     @orders = @load.orders.page(current_page).per(per_page)
@@ -17,6 +18,15 @@ class Api::V1::OrdersController < Api::V1::ApiController
     end
   end
 
+  def update
+    if @order.update(order_params)
+      render json: @order, status: :ok
+    else
+      render json: { errors: @order.errors.full_messages },
+             status: :unprocessable_entity
+    end
+  end
+
   private
 
   def set_load
@@ -25,5 +35,9 @@ class Api::V1::OrdersController < Api::V1::ApiController
 
   def order_params
     params.require(:order).permit(:code, :bay)
+  end
+
+  def set_order
+    @order = Order.find(params[:id])
   end
 end

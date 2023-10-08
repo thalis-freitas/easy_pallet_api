@@ -4,6 +4,8 @@ Rails.application.routes.draw do
       resources :loads, only: [:index, :create, :update, :destroy] do
         resources :orders, only: [:index, :create]
       end
+
+      resources :orders, only: [:update]
     end
   end
 end

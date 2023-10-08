@@ -69,4 +69,49 @@ describe Api::V1::OrdersController, type: :request do
       it { expect(response).to have_http_status(:not_found) }
     end
   end
+
+  describe 'PUT /api/v1/orders/:id' do
+    context 'with valid params' do
+      before do
+        @order = create(:order)
+        @order_attributes = attributes_for(:order)
+
+        put "/api/v1/orders/#{@order.id}", params: { order: @order_attributes }
+      end
+
+      it { expect(response).to have_http_status(:ok) }
+
+      it 'updates the order with the provided attributes' do
+        @order.reload
+
+        expect(@order.code).to eq(@order_attributes[:code])
+        expect(@order.bay).to eq(@order_attributes[:bay])
+      end
+    end
+
+    context 'with invalid ID' do
+      before do
+        @order_attributes = attributes_for(:order)
+
+        put '/api/v1/orders/9999', params: { order: @order_attributes }
+      end
+
+      it { expect(response).to have_http_status(:not_found) }
+    end
+
+    context 'with invalid params' do
+      before do
+        @order = create(:order)
+        @invalid_attributes = { bay: nil }
+
+        put "/api/v1/orders/#{@order.id}", params: { order: @invalid_attributes }
+      end
+
+      it { expect(response).to have_http_status(:unprocessable_entity) }
+
+      it 'returns validation errors if order is invalid' do
+        expect(json).to include(:errors)
+      end
+    end
+  end
 end
