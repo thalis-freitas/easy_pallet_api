@@ -23,4 +23,34 @@ describe Api::V1::ProductsController, type: :request do
       end
     end
   end
+
+  describe 'POST /api/v1/products' do
+    context 'successful request' do
+      before do
+        @product_attributes = attributes_for(:product)
+        post '/api/v1/products', params: { product: @product_attributes }
+      end
+
+      it { expect(response).to have_http_status(:created) }
+
+      it 'creates a new product with the provided attributes' do
+        expect(json[:name]).to eq(@product_attributes[:name])
+        expect(json[:ballast]).to eq(@product_attributes[:ballast])
+      end
+    end
+
+    context 'with invalid params' do
+      before do
+        post '/api/v1/products',
+             params: { product: { name: '' } }
+      end
+
+      it { expect(response).to have_http_status(:unprocessable_entity) }
+
+      it 'returns validation errors if product is invalid' do
+        expect(json[:errors]).to include('Nome não pode ficar em branco')
+        expect(json[:errors]).to include('Lastro não pode ficar em branco')
+      end
+    end
+  end
 end

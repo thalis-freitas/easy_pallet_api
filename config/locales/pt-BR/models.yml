@@ -7,6 +7,9 @@ pt-BR:
       order:
         one: Lista
         other: Listas
+      product:
+        one: Produto
+        other: Produtos
 
     attributes:
       load:
@@ -15,3 +18,6 @@ pt-BR:
       order:
         code: Código
         bay: Baia
+      product:
+        name: Nome
+        ballast: Lastro
