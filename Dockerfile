@@ -1,20 +1,13 @@
-from ruby:3.2.2
+FROM ruby:3.2.2
+RUN apt-get update -qq && apt-get install -y nodejs postgresql-client
+WORKDIR /easy_pallet_api
+COPY Gemfile /easy_pallet_api/Gemfile
+COPY Gemfile.lock /easy_pallet_api/Gemfile.lock
+RUN bundle install
 
-RUN apt update && \
-    apt upgrade -y && \
-    apt install lsb-base lsb-release
+COPY entrypoint.sh /usr/bin/
+RUN chmod +x /usr/bin/entrypoint.sh
+ENTRYPOINT ["entrypoint.sh"]
+EXPOSE 3000
 
-# Postgresql
-RUN sh -c 'echo "deb https://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
-RUN wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
-
-RUN apt update \
-    && apt install -y libpq-dev \
-                      postgresql-14
-
-RUN gem install pg
-
-ADD . /home/app/web
-WORKDIR /home/app/web
-
-RUN bundle check || bundle install
+CMD ["rails", "server", "-b", "0.0.0.0"]

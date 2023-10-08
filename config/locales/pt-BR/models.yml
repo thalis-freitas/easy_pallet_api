@@ -1,0 +1,11 @@
+pt-BR:
+  activerecord:
+    models:
+      load:
+        one: Carga
+        other: Cargas
+
+    attributes:
+      load:
+        code: Código
+        delivery_date: Data de entrega
