@@ -1,4 +1,6 @@
 class Api::V1::LoadsController < Api::V1::ApiController
+  before_action :set_load, only: [:update]
+
   include Paginable
 
   def index
@@ -19,9 +21,22 @@ class Api::V1::LoadsController < Api::V1::ApiController
     end
   end
 
+  def update
+    if @load.update(load_params)
+      render json: @load, status: :ok
+    else
+      render json: { errors: @load.errors.full_messages },
+             status: :unprocessable_entity
+    end
+  end
+
   private
 
   def load_params
     params.require(:load).permit(:code, :delivery_date)
+  end
+
+  def set_load
+    @load = Load.find(params[:id])
   end
 end
