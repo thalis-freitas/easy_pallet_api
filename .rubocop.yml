@@ -12,6 +12,7 @@ AllCops:
     - 'vendor/**/*'
     - 'config/**/*'
     - 'spec/rails_helper.rb'
+    - 'spec/support/request_helpers.rb'
     - 'db/schema.rb'
     - 'db/migrate/**/*'
 
