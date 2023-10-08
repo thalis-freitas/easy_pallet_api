@@ -100,4 +100,25 @@ describe Api::V1::LoadsController, type: :request do
       end
     end
   end
+
+  describe 'DELETE /api/v1/loads/:id' do
+    context 'with a valid load ID' do
+      before do
+        @load = create(:load)
+        delete "/api/v1/loads/#{@load.id}"
+      end
+
+      it { expect(response).to have_http_status(:ok) }
+
+      it 'deletes the load' do
+        expect(Load.exists?(@load.id)).to be_falsey
+      end
+    end
+
+    context 'with an invalid load ID' do
+      before { delete '/api/v1/loads/9999' }
+
+      it { expect(response).to have_http_status(:not_found) }
+    end
+  end
 end

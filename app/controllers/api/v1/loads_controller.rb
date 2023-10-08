@@ -1,5 +1,5 @@
 class Api::V1::LoadsController < Api::V1::ApiController
-  before_action :set_load, only: [:update]
+  before_action :set_load, only: %i[update destroy]
 
   include Paginable
 
@@ -24,6 +24,15 @@ class Api::V1::LoadsController < Api::V1::ApiController
   def update
     if @load.update(load_params)
       render json: @load, status: :ok
+    else
+      render json: { errors: @load.errors.full_messages },
+             status: :unprocessable_entity
+    end
+  end
+
+  def destroy
+    if @load.destroy
+      render status: :ok
     else
       render json: { errors: @load.errors.full_messages },
              status: :unprocessable_entity
