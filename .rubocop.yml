@@ -20,7 +20,7 @@ Style/Documentation:
   Enabled: false
 
 Metrics/BlockLength:
-  AllowedMethods: ['describe', 'context', 'it']
+  AllowedMethods: ['describe', 'context']
 
 Style/ClassAndModuleChildren:
   EnforcedStyle: compact
