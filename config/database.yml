@@ -1,8 +1,10 @@
 default: &default
   adapter: postgresql
   encoding: unicode
-  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  url: postgres://postgres:postgres@db:5432/easy_pallet_api_development
+  host: db
+  username: postgres
+  password: password
+  pool: 5
 
 development:
   <<: *default
@@ -11,9 +13,3 @@ development:
 test:
   <<: *default
   database: easy_pallet_api_test
-
-production:
-  <<: *default
-  database: easy_pallet_api_production
-  username: easy_pallet_api
-  password: <%= ENV["EASY_PALLET_API_DATABASE_PASSWORD"] %>
