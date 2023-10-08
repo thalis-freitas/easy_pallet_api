@@ -53,4 +53,41 @@ describe Api::V1::ProductsController, type: :request do
       end
     end
   end
+
+  describe 'PUT /api/v1/products/:id' do
+    context 'with valid params' do
+      before do
+        @product = create(:product)
+        @product_attributes = attributes_for(:product)
+
+        put "/api/v1/products/#{@product.id}",
+            params: { product: @product_attributes }
+      end
+
+      it { expect(response).to have_http_status(:ok) }
+
+      it 'updates the product with the provided attributes' do
+        @product.reload
+
+        expect(@product.name).to eq(@product_attributes[:name])
+        expect(@product.ballast).to eq(@product_attributes[:ballast])
+      end
+    end
+
+    context 'with invalid params' do
+      before do
+        @product = create(:product)
+        @invalid_attributes = { ballast: nil }
+
+        put "/api/v1/products/#{@product.id}",
+            params: { product: @invalid_attributes }
+      end
+
+      it { expect(response).to have_http_status(:unprocessable_entity) }
+
+      it 'returns validation errors if product is invalid' do
+        expect(json).to include(:errors)
+      end
+    end
+  end
 end
