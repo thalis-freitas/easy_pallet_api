@@ -1,6 +1,6 @@
 class Api::V1::OrdersController < Api::V1::ApiController
   before_action :set_load, only: %i[index create]
-  before_action :set_order, only: %i[update]
+  before_action :set_order, only: %i[update destroy]
 
   def index
     @orders = @load.orders.page(current_page).per(per_page)
@@ -21,6 +21,15 @@ class Api::V1::OrdersController < Api::V1::ApiController
   def update
     if @order.update(order_params)
       render json: @order, status: :ok
+    else
+      render json: { errors: @order.errors.full_messages },
+             status: :unprocessable_entity
+    end
+  end
+
+  def destroy
+    if @order.destroy
+      render status: :ok
     else
       render json: { errors: @order.errors.full_messages },
              status: :unprocessable_entity

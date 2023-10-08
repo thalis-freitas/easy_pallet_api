@@ -114,4 +114,25 @@ describe Api::V1::OrdersController, type: :request do
       end
     end
   end
+
+  describe 'DELETE /api/v1/orders/:id' do
+    context 'with a valid order ID' do
+      before do
+        @order = create(:order)
+        delete "/api/v1/orders/#{@order.id}"
+      end
+
+      it { expect(response).to have_http_status(:ok) }
+
+      it 'deletes the order' do
+        expect(Load.exists?(@order.id)).to be_falsey
+      end
+    end
+
+    context 'with an invalid order ID' do
+      before { delete '/api/v1/orders/9999' }
+
+      it { expect(response).to have_http_status(:not_found) }
+    end
+  end
 end
