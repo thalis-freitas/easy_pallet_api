@@ -88,9 +88,8 @@ describe Api::V1::LoadsController, type: :request do
     context 'with invalid ID' do
       before do
         @load_attributes = attributes_for(:load)
-        invalid_id = 9999
 
-        put "/api/v1/loads/#{invalid_id}", params: { load: @load_attributes }
+        put '/api/v1/loads/9999', params: { load: @load_attributes }
       end
 
       it { expect(response).to have_http_status(:not_found) }
