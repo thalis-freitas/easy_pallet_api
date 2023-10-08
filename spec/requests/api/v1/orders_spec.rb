@@ -24,4 +24,49 @@ describe Api::V1::OrdersController, type: :request do
       end
     end
   end
+
+  describe 'POST /api/v1/loads/:load_id/orders' do
+    context 'successful request' do
+      before do
+        @load = create(:load)
+        @order_attributes = attributes_for(:order)
+
+        post "/api/v1/loads/#{@load.id}/orders",
+             params: { order: @order_attributes }
+      end
+
+      it { expect(response).to have_http_status(:created) }
+
+      it 'creates a new order with the provided attributes' do
+        expect(json[:code]).to eq(@order_attributes[:code])
+        expect(json[:bay]).to eq(@order_attributes[:bay])
+      end
+    end
+
+    context 'with invalid params' do
+      before do
+        @load = create(:load)
+
+        post "/api/v1/loads/#{@load.id}/orders",
+             params: { order: { bay: nil, code: '' } }
+      end
+
+      it { expect(response).to have_http_status(:unprocessable_entity) }
+
+      it 'returns validation errors if order is invalid' do
+        expect(json[:errors]).to include('Código não pode ficar em branco')
+        expect(json[:errors]).to include('Baia não pode ficar em branco')
+      end
+    end
+
+    context 'with invalid load_id' do
+      before do
+        @order_attributes = attributes_for(:order)
+
+        post '/api/v1/loads/9999/orders', params: { order: @order_attributes }
+      end
+
+      it { expect(response).to have_http_status(:not_found) }
+    end
+  end
 end

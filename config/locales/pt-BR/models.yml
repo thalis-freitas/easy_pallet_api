@@ -4,8 +4,14 @@ pt-BR:
       load:
         one: Carga
         other: Cargas
+      order:
+        one: Lista
+        other: Listas
 
     attributes:
       load:
         code: Código
         delivery_date: Data de entrega
+      order:
+        code: Código
+        bay: Baia
