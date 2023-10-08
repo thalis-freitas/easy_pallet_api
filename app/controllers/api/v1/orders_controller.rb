@@ -3,9 +3,7 @@ class Api::V1::OrdersController < Api::V1::ApiController
 
   def index
     @orders = @load.orders.page(current_page).per(per_page)
-    render json: @orders,
-           meta: meta_attributes(@orders),
-           adapter: :json
+    render_paginated_collection(@orders)
   end
 
   private

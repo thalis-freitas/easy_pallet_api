@@ -9,4 +9,10 @@ class Api::V1::ApiController < ActionController::API
   rescue_from ActiveRecord::RecordNotFound do |msg|
     render json: { message: msg }, status: :not_found
   end
+
+  def render_paginated_collection(collection)
+    render json: collection,
+           meta: meta_attributes(collection),
+           adapter: :json
+  end
 end
