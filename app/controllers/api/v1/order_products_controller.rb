@@ -12,7 +12,7 @@ class Api::V1::OrderProductsController < Api::V1::ApiController
     if @order_product.save
       render json: @order_product, status: :created
     else
-      render json: { errors: @order_product.errors.full_messages },
+      render json: { errors: formatted_errors(@order_product) },
              status: :unprocessable_entity
     end
   end

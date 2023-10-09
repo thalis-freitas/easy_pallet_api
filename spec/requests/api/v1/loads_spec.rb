@@ -57,10 +57,10 @@ describe Api::V1::LoadsController, type: :request do
 
       it 'returns validation errors if load is invalid' do
         expect(json[:errors])
-          .to include('Código não pode ficar em branco')
+          .to include(code: 'Código não pode ficar em branco')
 
         expect(json[:errors])
-          .to include('Data de entrega não pode ficar em branco')
+          .to include(delivery_date: 'Data de entrega não pode ficar em branco')
       end
     end
   end

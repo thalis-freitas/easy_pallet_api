@@ -54,8 +54,8 @@ describe Api::V1::OrdersController, type: :request do
       it { expect(response).to have_http_status(:unprocessable_entity) }
 
       it 'returns validation errors if order is invalid' do
-        expect(json[:errors]).to include('Código não pode ficar em branco')
-        expect(json[:errors]).to include('Baia não pode ficar em branco')
+        expect(json[:errors]).to include(code: 'Código não pode ficar em branco')
+        expect(json[:errors]).to include(bay: 'Baia não pode ficar em branco')
       end
     end
 

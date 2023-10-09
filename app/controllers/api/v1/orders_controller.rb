@@ -13,7 +13,7 @@ class Api::V1::OrdersController < Api::V1::ApiController
     if @order.save
       render json: @order, status: :created
     else
-      render json: { errors: @order.errors.full_messages },
+      render json: { errors: formatted_errors(@order) },
              status: :unprocessable_entity
     end
   end
@@ -22,7 +22,7 @@ class Api::V1::OrdersController < Api::V1::ApiController
     if @order.update(order_params)
       render json: @order, status: :ok
     else
-      render json: { errors: @order.errors.full_messages },
+      render json: { errors: formatted_errors(@order) },
              status: :unprocessable_entity
     end
   end
