@@ -1,4 +1,6 @@
 class Order < ApplicationRecord
-  validates :code, :bay, presence: true
   belongs_to :load
+  has_many :order_products, dependent: :destroy
+
+  validates :code, :bay, presence: true
 end

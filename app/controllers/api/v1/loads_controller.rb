@@ -12,7 +12,7 @@ class Api::V1::LoadsController < Api::V1::ApiController
     if @load.save
       render json: @load, status: :created
     else
-      render json: { errors: @load.errors.full_messages },
+      render json: { errors: formatted_errors(@load) },
              status: :unprocessable_entity
     end
   end
@@ -21,7 +21,7 @@ class Api::V1::LoadsController < Api::V1::ApiController
     if @load.update(load_params)
       render json: @load, status: :ok
     else
-      render json: { errors: @load.errors.full_messages },
+      render json: { errors: formatted_errors(@load) },
              status: :unprocessable_entity
     end
   end

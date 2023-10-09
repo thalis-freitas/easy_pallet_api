@@ -12,7 +12,7 @@ class Api::V1::ProductsController < Api::V1::ApiController
     if @product.save
       render json: @product, status: :created
     else
-      render json: { errors: @product.errors.full_messages },
+      render json: { errors: formatted_errors(@product) },
              status: :unprocessable_entity
     end
   end
@@ -21,7 +21,7 @@ class Api::V1::ProductsController < Api::V1::ApiController
     if @product.update(product_params)
       render json: @product, status: :ok
     else
-      render json: { errors: @product.errors.full_messages },
+      render json: { errors: formatted_errors(@product) },
              status: :unprocessable_entity
     end
   end

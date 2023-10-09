@@ -10,6 +10,9 @@ pt-BR:
       product:
         one: Produto
         other: Produtos
+      order_product:
+        one: Produto da lista
+        other: Produtos da lista
 
     attributes:
       load:
@@ -21,3 +24,8 @@ pt-BR:
       product:
         name: Nome
         ballast: Lastro
+      order_product:
+        product: Produto
+        product_id: Produto
+        quantity: Quantidade
+        order: Lista
