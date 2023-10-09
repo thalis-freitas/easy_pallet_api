@@ -1,6 +1,6 @@
 class Api::V1::OrderProductsController < Api::V1::ApiController
   before_action :set_order, only: %i[index create]
-  before_action :set_order_product, only: [:update]
+  before_action :set_order_product, only: %i[update destroy]
 
   def index
     @order_products = @order.order_products
@@ -21,6 +21,15 @@ class Api::V1::OrderProductsController < Api::V1::ApiController
   def update
     if @order_product.update(order_product_params)
       render json: @order_product
+    else
+      render json: { errors: formatted_errors(@order_product) },
+             status: :unprocessable_entity
+    end
+  end
+
+  def destroy
+    if @order_product.destroy
+      render status: :ok
     else
       render json: { errors: formatted_errors(@order_product) },
              status: :unprocessable_entity
