@@ -8,7 +8,7 @@ Rails.application.routes.draw do
       end
 
       resources :orders, only: [:update, :destroy] do
-        resources :order_products, only: [:index]
+        resources :order_products, only: [:index, :create]
       end
     end
   end
