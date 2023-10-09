@@ -10,6 +10,8 @@ Rails.application.routes.draw do
       resources :orders, only: [:update, :destroy] do
         resources :order_products, only: [:index, :create]
       end
+
+      resources :order_products, only: [:update]
     end
   end
 end

@@ -70,4 +70,38 @@ describe Api::V1::OrderProductsController, type: :request do
       end
     end
   end
+
+  describe 'PUT /api/v1/order_products/:id' do
+    before { @order_product = create(:order_product) }
+
+    context 'successful request' do
+      before do
+        @attributes = { quantity: '10' }
+
+        put "/api/v1/order_products/#{@order_product.id}",
+            params: { order_product: @attributes }
+      end
+
+      it { expect(response).to have_http_status(:success) }
+
+      it 'updates the order product with the provided attributes' do
+        @order_product.reload
+        expect(@order_product.quantity).to eq(@attributes[:quantity])
+      end
+    end
+
+    context 'with invalid params' do
+      before do
+        put "/api/v1/order_products/#{@order_product.id}",
+            params: { order_product: { quantity: '' } }
+      end
+
+      it { expect(response).to have_http_status(:unprocessable_entity) }
+
+      it 'returns validation errors if order_product is invalid' do
+        expect(json[:errors])
+          .to include(quantity: 'Quantidade não pode ficar em branco')
+      end
+    end
+  end
 end

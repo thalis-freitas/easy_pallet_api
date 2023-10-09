@@ -1,5 +1,6 @@
 class Api::V1::OrderProductsController < Api::V1::ApiController
-  before_action :set_order
+  before_action :set_order, only: %i[index create]
+  before_action :set_order_product, only: [:update]
 
   def index
     @order_products = @order.order_products
@@ -17,6 +18,15 @@ class Api::V1::OrderProductsController < Api::V1::ApiController
     end
   end
 
+  def update
+    if @order_product.update(order_product_params)
+      render json: @order_product
+    else
+      render json: { errors: formatted_errors(@order_product) },
+             status: :unprocessable_entity
+    end
+  end
+
   private
 
   def set_order
@@ -25,5 +35,9 @@ class Api::V1::OrderProductsController < Api::V1::ApiController
 
   def order_product_params
     params.require(:order_product).permit(:product_id, :quantity)
+  end
+
+  def set_order_product
+    @order_product = OrderProduct.find(params[:id])
   end
 end
