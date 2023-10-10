@@ -1,4 +1,4 @@
-class Api::V1::ApiController < ActionController::API
+class Api::V1::ApiController < ApplicationController
   include Paginable
 
   rescue_from ActiveRecord::ActiveRecordError do |_exception|
