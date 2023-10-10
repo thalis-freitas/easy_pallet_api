@@ -4,10 +4,10 @@
   * [Descrição do projeto](#descrição-do-projeto)
   * [Funcionalidades](#funcionalidades)
   * [Como rodar a aplicação](#como-rodar-a-aplicação)
-  * [Documentação da API](#documentação-da-api)
   * [Como rodar os testes](#como-rodar-os-testes)
   * [Como executar a análise do código](#como-executar-a-análise-do-código)
   * [Como derrubar a aplicação](#como-derrubar-a-aplicação)
+  * [Documentação da API](#documentação-da-api)
 
 ## Descrição do projeto
 
@@ -16,9 +16,8 @@
 
 ## Funcionalidades
 
-### Autenticação (login e logout)
+### Autenticação (login)
 - [ ] POST /api/v1/auth/login
-- [ ] DELETE /api/v1/auth/logout
 
 ### Cargas (Loads)
 - [x] GET /api/v1/loads (Listar todas as cargas com paginação)
@@ -97,6 +96,24 @@ Execute as migrações:
 
 ```
 rails db:migrate
+```
+
+## Como rodar os testes:
+
+```
+rspec
+```
+
+## Como executar a análise do código:
+
+```
+rubocop
+```
+
+## Como derrubar a aplicação:
+
+```
+docker compose down
 ```
 
 ## Documentação da API
@@ -601,21 +618,3 @@ Este endpoint permite a exclusão de um produto de uma lista com base no ID forn
 Retorno `200` (Sucesso)
 
 Se o produto da lista for removido com sucesso, o endpoint retornará um código de status `200 Ok`.
-
-## Como rodar os testes:
-
-```
-rspec
-```
-
-## Como executar a análise do código:
-
-```
-rubocop
-```
-
-## Como derrubar a aplicação:
-
-```
-docker compose down
-```
