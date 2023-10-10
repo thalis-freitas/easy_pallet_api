@@ -83,7 +83,7 @@ docker compose up -d
 Acesse o container da aplicação:
 
 ```
-docker compose exec web bash
+docker compose exec app bash
 ```
 
 Crie o banco de dados:
