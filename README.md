@@ -576,7 +576,7 @@ Se a validação falhar devido a dados inválidos, o endpoint retornará um cód
 {
   "errors": [
     "quantity": "Quantidade não pode ficar em branco"
-    "product_id": "Produto deve ser único"
+    "product_id": "Produto já está em uso"
   ]
 }
 ```
