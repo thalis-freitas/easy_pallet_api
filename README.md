@@ -46,7 +46,7 @@
 ### Usuários (Users)
 
 - [x] GET /api/v1/users (Listar todos os usuários com paginação)
-- [ ] POST /api/v1/users (Criar um novo usuário)
+- [x] POST /api/v1/users (Criar um novo usuário)
 - [ ] PUT /api/v1/users/:id (Editar um usuário existente)
 - [ ] DELETE /api/v1/users/:id (Excluir um usuário)
 
@@ -122,6 +122,7 @@ docker compose down
 
 - `200 OK`: A requisição foi bem sucedida.
 - `201 Created`: O registro foi criado com sucesso.
+- `401 Unauthorized`: Acesso não autorizado.
 - `404 Not Found`: O recurso solicitado não foi encontrado.
 - `422 Unprocessable Entity`: Erro de validação de dados, detalhes dos erros são fornecidos no corpo da resposta.
 - `500 Internal Server Error`: Erro interno do servidor.
@@ -705,6 +706,61 @@ Se a consulta for bem-sucedida, o endpoint retornará um código de status `200 
     "current_page": 3,
     "total_items": 8,
     "items_per_page": 2
+  }
+}
+
+```
+
+## Cadastro de um Usuário
+
+**Endpoint: POST /api/v1/users**
+
+Este endpoint permite a criação de um novo usuário.
+
+#### Parâmetros de Requisição
+
+| Nome         | Tipo   | Descrição           |
+| ---------    | ------ | ------------------- |
+| `name`       | String | O nome do usuário.  |
+| `login`      | String | O login do usuário. |
+| `password`   | String | A senha do usuário. |
+
+#### Exemplo de Requisição
+
+```json
+{
+  "user": {
+    "name": "User",
+    "login": "user_1999",
+    "password": "pass1234"
+  }
+}
+```
+
+Retorno `201` (Sucesso)
+
+Se o usuário for cadastrado com sucesso, o endpoint retornará um código de status `201 Created` juntamente com os detalhes do usuário criado.
+
+```json
+{
+  "user": {
+    "id": 82,
+    "name": "User",
+    "login": "user_1999"
+  }
+}
+```
+
+Retorno `422` (Erro de Validação)
+
+Se a validação falhar devido a dados inválidos, o endpoint retornará um código de status `422 Unprocessable Entity` juntamente com informações sobre os erros de validação.
+
+```json
+{
+  "errors": {
+    "name": "Nome não pode ficar em branco",
+    "login": "Login já está em uso",
+    "password": "Senha deve conter, no mínimo, 4 caracteres"
   }
 }
 

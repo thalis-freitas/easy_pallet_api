@@ -29,4 +29,58 @@ describe Api::V1::UsersController, type: :request do
       end
     end
   end
+
+  describe 'POST /api/v1/users' do
+    context 'successful request' do
+      before do
+        @user_attributes = attributes_for(:user)
+        post '/api/v1/users',
+             params: { user: @user_attributes },
+             headers: @headers
+      end
+
+      it { expect(response).to have_http_status(:created) }
+
+      it 'creates a new user with the provided attributes' do
+        expect(json[:user]).to include(name: @user_attributes[:name])
+        expect(json[:user]).to include(login: @user_attributes[:login])
+      end
+    end
+
+    context 'with invalid params' do
+      before do
+        post '/api/v1/users',
+             params: { user: { password: '123' } },
+             headers: @headers
+      end
+
+      it { expect(response).to have_http_status(:unprocessable_entity) }
+
+      it 'returns validation errors if user is invalid' do
+        expect(json[:errors]).to include(name: 'Nome não pode ficar em branco')
+
+        expect(json[:errors])
+          .to include(login: 'Login não pode ficar em branco')
+
+        expect(json[:errors])
+          .to include(password: 'Senha deve conter, no mínimo, 4 caracteres')
+      end
+    end
+
+    context 'when trying to register with an existing login' do
+      before do
+        create(:user, login: 'user')
+
+        post '/api/v1/users',
+             params: { user: { name: 'User', login: 'user', password: 'pass' } },
+             headers: @headers
+      end
+
+      it { expect(response).to have_http_status(:unprocessable_entity) }
+
+      it 'returns an error message for login' do
+        expect(json[:errors]).to include(login: 'Login já está em uso')
+      end
+    end
+  end
 end
