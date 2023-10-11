@@ -12,7 +12,7 @@
 ## Descrição do projeto
 
 <h4 align="justify"> API desenvolvida para processo seletivo da Easy Pallet </h4>
-<p align="justify"> Esta API implementa recursos de autenticação para restringir o acesso somente a usuários autenticados e permite gerenciar informações relacionadas a cargas, listas, produtos e usuários. </p>
+<p align="justify"> Esta API permite o gerenciamento de informações relacionadas a cargas, listas, produtos e usuários. Sua autenticação é baseado em tokens JWT (JSON Web Tokens), garantindo que apenas usuários autenticados acessem recursos protegidos. </p>
 
 ## Funcionalidades
 
@@ -45,7 +45,7 @@
 
 ### Usuários (Users)
 
-- [ ] GET /api/v1/users (Listar todos os usuários com paginação)
+- [x] GET /api/v1/users (Listar todos os usuários com paginação)
 - [ ] POST /api/v1/users (Criar um novo usuário)
 - [ ] PUT /api/v1/users/:id (Editar um usuário existente)
 - [ ] DELETE /api/v1/users/:id (Excluir um usuário)
@@ -98,19 +98,19 @@ Execute as migrações:
 rails db:migrate
 ```
 
-## Como rodar os testes:
+## Como rodar os testes
 
 ```
 rspec
 ```
 
-## Como executar a análise do código:
+## Como executar a análise do código
 
 ```
 rubocop
 ```
 
-## Como derrubar a aplicação:
+## Como derrubar a aplicação
 
 ```
 docker compose down
@@ -670,3 +670,42 @@ Este endpoint permite a exclusão de um produto de uma lista com base no ID forn
 Retorno `200` (Sucesso)
 
 Se o produto da lista for removido com sucesso, o endpoint retornará um código de status `200 Ok`.
+
+## Usuários
+
+## Listar Todos os Usuários
+
+**Endpoint: GET /api/v1/users**
+
+Este endpoint permite obter uma lista paginada com todos os usuários registrados no sistema.
+
+#### Exemplo de Requisição
+
+GET /api/v1/users?per_page=2&page=3
+
+#### Retorno `200` (Sucesso)
+
+Se a consulta for bem-sucedida, o endpoint retornará um código de status `200 OK` juntamente com a lista de usuários e informações de paginação.
+
+```json
+{
+  "users": [
+    {
+      "id": 5,
+      "name": "officia",
+      "login": "autem24"
+    },
+    {
+      "id": 6,
+      "name": "dolores",
+      "login": "repellendus30"
+    }
+  ],
+  "meta": {
+    "current_page": 3,
+    "total_items": 8,
+    "items_per_page": 2
+  }
+}
+
+```
