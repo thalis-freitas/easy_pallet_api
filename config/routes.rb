@@ -3,6 +3,8 @@ Rails.application.routes.draw do
     namespace :v1 do
       post '/login', to: 'auth#login'
 
+      resources :users, except: :show
+
       resources :products, except: :show
 
       resources :loads, except: :show do

@@ -13,6 +13,9 @@ pt-BR:
       order_product:
         one: Produto da lista
         other: Produtos da lista
+      user:
+        one: Usuário
+        other: Usuários
 
     attributes:
       load:
@@ -29,3 +32,7 @@ pt-BR:
         product_id: Produto
         quantity: Quantidade
         order: Lista
+      user:
+        name: Nome
+        login: Login
+        password: Senha

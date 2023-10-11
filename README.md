@@ -12,7 +12,7 @@
 ## Descrição do projeto
 
 <h4 align="justify"> API desenvolvida para processo seletivo da Easy Pallet </h4>
-<p align="justify"> Esta API implementa recursos de autenticação para restringir o acesso somente a usuários autenticados e permite gerenciar informações relacionadas a cargas, listas, produtos e usuários. </p>
+<p align="justify"> Esta API permite o gerenciamento de informações relacionadas a cargas, listas, produtos e usuários. Sua autenticação é baseado em tokens JWT (JSON Web Tokens), garantindo que apenas usuários autenticados acessem recursos protegidos. </p>
 
 ## Funcionalidades
 
@@ -45,10 +45,16 @@
 
 ### Usuários (Users)
 
-- [ ] GET /api/v1/users (Listar todos os usuários com paginação)
-- [ ] POST /api/v1/users (Criar um novo usuário)
-- [ ] PUT /api/v1/users/:id (Editar um usuário existente)
-- [ ] DELETE /api/v1/users/:id (Excluir um usuário)
+- [x] GET /api/v1/users (Listar todos os usuários com paginação)
+- [x] POST /api/v1/users (Criar um novo usuário)
+- [x] PUT /api/v1/users/:id (Editar um usuário existente)
+- [x] DELETE /api/v1/users/:id (Excluir um usuário)
+
+### Importação de Dados
+
+- [ ] POST /api/v1/loads/import (Importar dados da planilha de cargas)
+- [ ] POST /api/v1/products/import (Importar dados da planilha de produtos)
+- [ ] POST /api/v1/users/import (Importar dados da planilha de usuários)
 
 <div align="center">
 :construction: Em desenvolvimento...
@@ -98,19 +104,19 @@ Execute as migrações:
 rails db:migrate
 ```
 
-## Como rodar os testes:
+## Como rodar os testes
 
 ```
 rspec
 ```
 
-## Como executar a análise do código:
+## Como executar a análise do código
 
 ```
 rubocop
 ```
 
-## Como derrubar a aplicação:
+## Como derrubar a aplicação
 
 ```
 docker compose down
@@ -122,6 +128,7 @@ docker compose down
 
 - `200 OK`: A requisição foi bem sucedida.
 - `201 Created`: O registro foi criado com sucesso.
+- `401 Unauthorized`: Acesso não autorizado.
 - `404 Not Found`: O recurso solicitado não foi encontrado.
 - `422 Unprocessable Entity`: Erro de validação de dados, detalhes dos erros são fornecidos no corpo da resposta.
 - `500 Internal Server Error`: Erro interno do servidor.
@@ -540,7 +547,7 @@ Se o produto for atualizado com sucesso, o endpoint retornará um código de sta
 }
 ```
 
-### Excluir um produto
+### Excluir um Produto
 
 **Endpoint: DELETE /api/v1/products/:id**
 
@@ -661,7 +668,7 @@ Se o produto da lista for atualizada com sucesso, o endpoint retornará um códi
 }
 ```
 
-### Excluir um produto de uma lista
+### Excluir um Produto de uma Lista
 
 **Endpoint: DELETE /api/v1/order_products/:id**
 
@@ -670,3 +677,138 @@ Este endpoint permite a exclusão de um produto de uma lista com base no ID forn
 Retorno `200` (Sucesso)
 
 Se o produto da lista for removido com sucesso, o endpoint retornará um código de status `200 Ok`.
+
+## Usuários
+
+## Listar Todos os Usuários
+
+**Endpoint: GET /api/v1/users**
+
+Este endpoint permite obter uma lista paginada com todos os usuários registrados no sistema.
+
+#### Exemplo de Requisição
+
+GET /api/v1/users?per_page=2&page=3
+
+#### Retorno `200` (Sucesso)
+
+Se a consulta for bem-sucedida, o endpoint retornará um código de status `200 OK` juntamente com a lista de usuários e informações de paginação.
+
+```json
+{
+  "users": [
+    {
+      "id": 5,
+      "name": "officia",
+      "login": "autem24"
+    },
+    {
+      "id": 6,
+      "name": "dolores",
+      "login": "repellendus30"
+    }
+  ],
+  "meta": {
+    "current_page": 3,
+    "total_items": 8,
+    "items_per_page": 2
+  }
+}
+
+```
+
+## Cadastro de um Usuário
+
+**Endpoint: POST /api/v1/users**
+
+Este endpoint permite o cadastro de um novo usuário.
+
+#### Parâmetros de Requisição
+
+| Nome         | Tipo   | Descrição           |
+| ---------    | ------ | ------------------- |
+| `name`       | String | O nome do usuário.  |
+| `login`      | String | O login do usuário. |
+| `password`   | String | A senha do usuário. |
+
+#### Exemplo de Requisição
+
+```json
+{
+  "user": {
+    "name": "User",
+    "login": "user_1999",
+    "password": "pass1234"
+  }
+}
+```
+
+Retorno `201` (Sucesso)
+
+Se o usuário for cadastrado com sucesso, o endpoint retornará um código de status `201 Created` juntamente com os detalhes do usuário criado.
+
+```json
+{
+  "user": {
+    "id": 82,
+    "name": "User",
+    "login": "user_1999"
+  }
+}
+```
+
+Retorno `422` (Erro de Validação)
+
+Se a validação falhar devido a dados inválidos, o endpoint retornará um código de status `422 Unprocessable Entity` juntamente com informações sobre os erros de validação.
+
+```json
+{
+  "errors": {
+    "name": "Nome não pode ficar em branco",
+    "login": "Login já está em uso",
+    "password": "Senha deve conter, no mínimo, 4 caracteres"
+  }
+}
+
+```
+
+### Editar uma Usuário
+
+**Endpoint: PUT /api/v1/users/:id**
+
+Este endpoint permite a edição de um usuário com base no ID fornecido.
+
+#### Exemplo de Requisição
+
+```json
+{
+  "user": {
+    "login": "user84",
+    "password": "new_password"
+  }
+}
+
+```
+
+Retorno `200` (Sucesso)
+
+Se o usuário for editado com sucesso, o endpoint retornará um código de status `200 OK` juntamente com os detalhes do usuário.
+
+```json
+{
+    "id": 84,
+    "name": "User",
+    "login": "user84"
+}
+
+```
+
+### Excluir um usuário
+
+**Endpoint: DELETE /api/v1/users/:id**
+
+Este endpoint permite a exclusão de um usuário com base no ID fornecido.
+
+Retorno `200` (Sucesso)
+
+Se o usuário for removido com sucesso, o endpoint retornará um código de status `200 Ok`.
