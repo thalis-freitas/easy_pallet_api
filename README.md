@@ -48,7 +48,7 @@
 - [x] GET /api/v1/users (Listar todos os usuários com paginação)
 - [x] POST /api/v1/users (Criar um novo usuário)
 - [x] PUT /api/v1/users/:id (Editar um usuário existente)
-- [ ] DELETE /api/v1/users/:id (Excluir um usuário)
+- [x] DELETE /api/v1/users/:id (Excluir um usuário)
 
 ### Importação de Dados
 
@@ -547,7 +547,7 @@ Se o produto for atualizado com sucesso, o endpoint retornará um código de sta
 }
 ```
 
-### Excluir um produto
+### Excluir um Produto
 
 **Endpoint: DELETE /api/v1/products/:id**
 
@@ -668,7 +668,7 @@ Se o produto da lista for atualizada com sucesso, o endpoint retornará um códi
 }
 ```
 
-### Excluir um produto de uma lista
+### Excluir um Produto de uma Lista
 
 **Endpoint: DELETE /api/v1/order_products/:id**
 
@@ -802,3 +802,13 @@ Se o usuário for editado com sucesso, o endpoint retornará um código de statu
 }
 
 ```
+
+### Excluir um usuário
+
+**Endpoint: DELETE /api/v1/users/:id**
+
+Este endpoint permite a exclusão de um usuário com base no ID fornecido.
+
+Retorno `200` (Sucesso)
+
+Se o usuário for removido com sucesso, o endpoint retornará um código de status `200 Ok`.

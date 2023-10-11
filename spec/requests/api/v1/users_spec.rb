@@ -122,4 +122,25 @@ describe Api::V1::UsersController, type: :request do
       end
     end
   end
+
+  describe 'DELETE /api/v1/users/:id' do
+    context 'with a valid user ID' do
+      before do
+        @user = create(:user)
+        delete "/api/v1/users/#{@user.id}", headers: @headers
+      end
+
+      it { expect(response).to have_http_status(:ok) }
+
+      it 'deletes the user' do
+        expect(Load.exists?(@user.id)).to be_falsey
+      end
+    end
+
+    context 'with an invalid user ID' do
+      before { delete '/api/v1/users/999', headers: @headers }
+
+      it { expect(response).to have_http_status(:not_found) }
+    end
+  end
 end
