@@ -47,8 +47,14 @@
 
 - [x] GET /api/v1/users (Listar todos os usuários com paginação)
 - [x] POST /api/v1/users (Criar um novo usuário)
-- [ ] PUT /api/v1/users/:id (Editar um usuário existente)
+- [x] PUT /api/v1/users/:id (Editar um usuário existente)
 - [ ] DELETE /api/v1/users/:id (Excluir um usuário)
+
+### Importação de Dados
+
+- [ ] POST /api/v1/loads/import (Importar dados da planilha de cargas)
+- [ ] POST /api/v1/products/import (Importar dados da planilha de produtos)
+- [ ] POST /api/v1/users/import (Importar dados da planilha de usuários)
 
 <div align="center">
 :construction: Em desenvolvimento...
@@ -715,7 +721,7 @@ Se a consulta for bem-sucedida, o endpoint retornará um código de status `200 
 
 **Endpoint: POST /api/v1/users**
 
-Este endpoint permite a criação de um novo usuário.
+Este endpoint permite o cadastro de um novo usuário.
 
 #### Parâmetros de Requisição
 
@@ -762,6 +768,37 @@ Se a validação falhar devido a dados inválidos, o endpoint retornará um cód
     "login": "Login já está em uso",
     "password": "Senha deve conter, no mínimo, 4 caracteres"
   }
+}
+
+```
+
+### Editar uma Usuário
+
+**Endpoint: PUT /api/v1/users/:id**
+
+Este endpoint permite a edição de um usuário com base no ID fornecido.
+
+#### Exemplo de Requisição
+
+```json
+{
+  "user": {
+    "login": "user84",
+    "password": "new_password"
+  }
+}
+
+```
+
+Retorno `200` (Sucesso)
+
+Se o usuário for editado com sucesso, o endpoint retornará um código de status `200 OK` juntamente com os detalhes do usuário.
+
+```json
+{
+    "id": 84,
+    "name": "User",
+    "login": "user84"
 }
 
 ```

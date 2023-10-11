@@ -83,4 +83,43 @@ describe Api::V1::UsersController, type: :request do
       end
     end
   end
+
+  describe 'PUT /api/v1/users/:id' do
+    context 'with valid params' do
+      before do
+        @user = create(:user)
+        @user_attributes = attributes_for(:user)
+
+        put "/api/v1/users/#{@user.id}",
+            params: { user: @user_attributes },
+            headers: @headers
+      end
+
+      it { expect(response).to have_http_status(:ok) }
+
+      it 'updates the user with the provided attributes' do
+        @user.reload
+
+        expect(@user.name).to eq(@user_attributes[:name])
+        expect(@user.login).to eq(@user_attributes[:login])
+      end
+    end
+
+    context 'with invalid params' do
+      before do
+        @user = create(:user)
+        @invalid_attributes = { password: nil }
+
+        put "/api/v1/users/#{@user.id}",
+            params: { user: @invalid_attributes },
+            headers: @headers
+      end
+
+      it { expect(response).to have_http_status(:unprocessable_entity) }
+
+      it 'returns validation errors if user is invalid' do
+        expect(json).to include(:errors)
+      end
+    end
+  end
 end
