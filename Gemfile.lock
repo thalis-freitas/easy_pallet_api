@@ -81,6 +81,7 @@ GEM
       tzinfo (~> 2.0)
     ast (2.4.2)
     base64 (0.1.1)
+    bcrypt (3.1.19)
     bigdecimal (3.1.4)
     bootsnap (1.16.0)
       msgpack (~> 1.2)
@@ -119,6 +120,7 @@ GEM
       reline (>= 0.3.8)
     json (2.6.3)
     jsonapi-renderer (0.2.2)
+    jwt (2.7.1)
     kaminari (1.2.2)
       activesupport (>= 4.1.0)
       kaminari-actionview (= 1.2.2)
@@ -266,11 +268,13 @@ PLATFORMS
 
 DEPENDENCIES
   active_model_serializers (~> 0.10.0)
+  bcrypt
   bootsnap
   database_cleaner-active_record
   debug
   factory_bot_rails
   faker
+  jwt
   kaminari
   pg (~> 1.1)
   puma (>= 5.0)

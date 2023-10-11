@@ -1,2 +1,4 @@
 en:
-  hello: 'Hello world'
+  errors:
+    login_or_password_invalid: Invalid username or password
+    unauthorized: Unauthorized access

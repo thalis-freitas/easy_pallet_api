@@ -1,11 +1,17 @@
 require 'rails_helper'
 
 describe Api::V1::LoadsController, type: :request do
+  before do
+    user = create(:user)
+    token = encode_token(user_id: user.id)
+    @headers = { 'Authorization' => "Bearer #{token}" }
+  end
+
   describe 'GET /api/v1/loads' do
     before { @loads = create_list(:load, 5) }
 
     context 'successful request' do
-      before { get '/api/v1/loads' }
+      before { get '/api/v1/loads', headers: @headers }
 
       it { expect(response).to have_http_status(:success) }
 
@@ -24,7 +30,7 @@ describe Api::V1::LoadsController, type: :request do
     context 'error handling' do
       it 'handles internal server error' do
         allow(Load).to receive(:page).and_raise(ActiveRecord::QueryCanceled)
-        get '/api/v1/loads'
+        get '/api/v1/loads', headers: @headers
 
         expect(response).to have_http_status(:internal_server_error)
         expect(json).to include(error: 'Internal Server Error')
@@ -36,7 +42,9 @@ describe Api::V1::LoadsController, type: :request do
     context 'successful request' do
       before do
         @load_attributes = attributes_for(:load)
-        post '/api/v1/loads', params: { load: @load_attributes }
+        post '/api/v1/loads',
+             params: { load: @load_attributes },
+             headers: @headers
       end
 
       it { expect(response).to have_http_status(:created) }
@@ -50,7 +58,7 @@ describe Api::V1::LoadsController, type: :request do
 
     context 'with invalid params' do
       before do
-        post '/api/v1/loads', params: { load: { code: nil } }
+        post '/api/v1/loads', params: { load: { code: nil } }, headers: @headers
       end
 
       it { expect(response).to have_http_status(:unprocessable_entity) }
@@ -71,7 +79,9 @@ describe Api::V1::LoadsController, type: :request do
         @load = create(:load)
         @load_attributes = attributes_for(:load)
 
-        put "/api/v1/loads/#{@load.id}", params: { load: @load_attributes }
+        put "/api/v1/loads/#{@load.id}",
+            params: { load: @load_attributes },
+            headers: @headers
       end
 
       it { expect(response).to have_http_status(:ok) }
@@ -89,7 +99,9 @@ describe Api::V1::LoadsController, type: :request do
       before do
         @load_attributes = attributes_for(:load)
 
-        put '/api/v1/loads/9999', params: { load: @load_attributes }
+        put '/api/v1/loads/9999',
+            params: { load: @load_attributes },
+            headers: @headers
       end
 
       it { expect(response).to have_http_status(:not_found) }
@@ -100,7 +112,9 @@ describe Api::V1::LoadsController, type: :request do
         @load = create(:load)
         @invalid_attributes = { delivery_date: nil, code: nil }
 
-        put "/api/v1/loads/#{@load.id}", params: { load: @invalid_attributes }
+        put "/api/v1/loads/#{@load.id}",
+            params: { load: @invalid_attributes },
+            headers: @headers
       end
 
       it { expect(response).to have_http_status(:unprocessable_entity) }
@@ -115,7 +129,7 @@ describe Api::V1::LoadsController, type: :request do
     context 'with a valid load ID' do
       before do
         @load = create(:load)
-        delete "/api/v1/loads/#{@load.id}"
+        delete "/api/v1/loads/#{@load.id}", headers: @headers
       end
 
       it { expect(response).to have_http_status(:ok) }
@@ -126,7 +140,7 @@ describe Api::V1::LoadsController, type: :request do
     end
 
     context 'with an invalid load ID' do
-      before { delete '/api/v1/loads/9999' }
+      before { delete '/api/v1/loads/9999', headers: @headers }
 
       it { expect(response).to have_http_status(:not_found) }
     end
