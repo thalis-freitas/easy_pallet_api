@@ -1,0 +1,4 @@
+pt-BR:
+  errors:
+    login_or_password_invalid: Usuário ou senha inválidos
+    unauthorized: Acesso não autorizado

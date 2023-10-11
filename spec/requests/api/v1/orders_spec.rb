@@ -1,6 +1,12 @@
 require 'rails_helper'
 
 describe Api::V1::OrdersController, type: :request do
+  before do
+    user = create(:user)
+    token = encode_token(user_id: user.id)
+    @headers = { 'Authorization' => "Bearer #{token}" }
+  end
+
   describe 'GET /api/v1/loads/:load_id/orders' do
     before do
       @load = create(:load)
@@ -8,7 +14,7 @@ describe Api::V1::OrdersController, type: :request do
     end
 
     context 'successful request' do
-      before { get "/api/v1/loads/#{@load.id}/orders" }
+      before { get "/api/v1/loads/#{@load.id}/orders", headers: @headers }
 
       it { expect(response).to have_http_status(:success) }
 
@@ -32,7 +38,8 @@ describe Api::V1::OrdersController, type: :request do
         @order_attributes = attributes_for(:order)
 
         post "/api/v1/loads/#{@load.id}/orders",
-             params: { order: @order_attributes }
+             params: { order: @order_attributes },
+             headers: @headers
       end
 
       it { expect(response).to have_http_status(:created) }
@@ -48,7 +55,8 @@ describe Api::V1::OrdersController, type: :request do
         @load = create(:load)
 
         post "/api/v1/loads/#{@load.id}/orders",
-             params: { order: { bay: nil, code: '' } }
+             params: { order: { bay: nil, code: '' } },
+             headers: @headers
       end
 
       it { expect(response).to have_http_status(:unprocessable_entity) }
@@ -63,7 +71,9 @@ describe Api::V1::OrdersController, type: :request do
       before do
         @order_attributes = attributes_for(:order)
 
-        post '/api/v1/loads/9999/orders', params: { order: @order_attributes }
+        post '/api/v1/loads/9999/orders',
+             params: { order: @order_attributes },
+             headers: @headers
       end
 
       it { expect(response).to have_http_status(:not_found) }
@@ -76,7 +86,9 @@ describe Api::V1::OrdersController, type: :request do
         @order = create(:order)
         @order_attributes = attributes_for(:order)
 
-        put "/api/v1/orders/#{@order.id}", params: { order: @order_attributes }
+        put "/api/v1/orders/#{@order.id}",
+            params: { order: @order_attributes },
+            headers: @headers
       end
 
       it { expect(response).to have_http_status(:ok) }
@@ -93,7 +105,9 @@ describe Api::V1::OrdersController, type: :request do
       before do
         @order_attributes = attributes_for(:order)
 
-        put '/api/v1/orders/9999', params: { order: @order_attributes }
+        put '/api/v1/orders/9999',
+            params: { order: @order_attributes },
+            headers: @headers
       end
 
       it { expect(response).to have_http_status(:not_found) }
@@ -104,7 +118,9 @@ describe Api::V1::OrdersController, type: :request do
         @order = create(:order)
         @invalid_attributes = { bay: nil }
 
-        put "/api/v1/orders/#{@order.id}", params: { order: @invalid_attributes }
+        put "/api/v1/orders/#{@order.id}",
+            params: { order: @invalid_attributes },
+            headers: @headers
       end
 
       it { expect(response).to have_http_status(:unprocessable_entity) }
@@ -119,7 +135,7 @@ describe Api::V1::OrdersController, type: :request do
     context 'with a valid order ID' do
       before do
         @order = create(:order)
-        delete "/api/v1/orders/#{@order.id}"
+        delete "/api/v1/orders/#{@order.id}", headers: @headers
       end
 
       it { expect(response).to have_http_status(:ok) }
@@ -130,7 +146,7 @@ describe Api::V1::OrdersController, type: :request do
     end
 
     context 'with an invalid order ID' do
-      before { delete '/api/v1/orders/9999' }
+      before { delete '/api/v1/orders/9999', headers: @headers }
 
       it { expect(response).to have_http_status(:not_found) }
     end

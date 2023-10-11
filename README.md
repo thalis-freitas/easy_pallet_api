@@ -17,7 +17,7 @@
 ## Funcionalidades
 
 ### Autenticação (login)
-- [ ] POST /api/v1/auth/login
+- [x] POST /api/v1/login
 
 ### Cargas (Loads)
 - [x] GET /api/v1/loads (Listar todas as cargas com paginação)
@@ -132,6 +132,58 @@ docker compose down
 | --------------- | --------- | ------------------------ |
 | `page`          | Inteiro   | Número da página desejada. |
 | `per_page`      | Inteiro   | Número de cargas por página. |
+
+## Autenticação
+
+### Login de Usuário
+
+**Endpoint: POST /api/v1/login**
+
+Este endpoint permite que um usuário faça login fornecendo seu nome de usuário (login) e senha.
+
+#### Parâmetros de Requisição
+
+| Nome       | Tipo      | Descrição           |
+| ---------- | --------- | ------------------- |
+| `login`    | String    | Login do usuário.   |
+| `password` | String    | A senha do usuário. |
+
+#### Exemplo de Requisição
+
+```json
+{
+  "user": {
+    "login": "user",
+    "password": "pass"
+  }
+}
+```
+
+Retorno `200` (Sucesso)
+
+Se o login for bem-sucedido, o endpoint retornará um código de status `200 OK` juntamente com os detalhes do usuário autenticado e um token de acesso.
+
+```json
+{
+  "user": {
+    "id": 3,
+    "name": "User",
+    "login": "user"
+  },
+  "token": "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxfQ.ETUYUOkmfnWsWIvA8iBOkE2s1ZQ0V_zgnG_c4QRrhbg"
+}
+
+```
+
+Retorno `422` (Erro de Validação)
+
+Se o login ou a senha forem inválidos, o endpoint retornará um código de status `422 Unprocessable Entity` com informações sobre o erro de validação.
+
+```json
+{
+  "errors": "Usuário ou senha inválidos"
+}
+```
 
 ## Cargas
 

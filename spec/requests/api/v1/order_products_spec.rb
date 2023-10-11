@@ -1,6 +1,12 @@
 require 'rails_helper'
 
 describe Api::V1::OrderProductsController, type: :request do
+  before do
+    user = create(:user)
+    token = encode_token(user_id: user.id)
+    @headers = { 'Authorization' => "Bearer #{token}" }
+  end
+
   describe 'GET /api/v1/orders/:order_id/order_products' do
     before do
       @order = create(:order)
@@ -8,7 +14,9 @@ describe Api::V1::OrderProductsController, type: :request do
     end
 
     context 'successful request' do
-      before { get "/api/v1/orders/#{@order.id}/order_products" }
+      before do
+        get "/api/v1/orders/#{@order.id}/order_products", headers: @headers
+      end
 
       it { expect(response).to have_http_status(:success) }
 
@@ -38,7 +46,8 @@ describe Api::V1::OrderProductsController, type: :request do
         @attributes = attributes_for(:order_product, product_id: @product.id)
 
         post "/api/v1/orders/#{@order.id}/order_products",
-             params: { order_product: @attributes }
+             params: { order_product: @attributes },
+             headers: @headers
       end
 
       it { expect(response).to have_http_status(:created) }
@@ -60,7 +69,8 @@ describe Api::V1::OrderProductsController, type: :request do
         )
 
         post "/api/v1/orders/#{@order.id}/order_products",
-             params: { order_product: @invalid_attributes }
+             params: { order_product: @invalid_attributes },
+             headers: @headers
       end
 
       it { expect(response).to have_http_status(:unprocessable_entity) }
@@ -79,7 +89,8 @@ describe Api::V1::OrderProductsController, type: :request do
         @attributes = { quantity: '10' }
 
         put "/api/v1/order_products/#{@order_product.id}",
-            params: { order_product: @attributes }
+            params: { order_product: @attributes },
+            headers: @headers
       end
 
       it { expect(response).to have_http_status(:success) }
@@ -93,7 +104,8 @@ describe Api::V1::OrderProductsController, type: :request do
     context 'with invalid params' do
       before do
         put "/api/v1/order_products/#{@order_product.id}",
-            params: { order_product: { quantity: '' } }
+            params: { order_product: { quantity: '' } },
+            headers: @headers
       end
 
       it { expect(response).to have_http_status(:unprocessable_entity) }
@@ -109,7 +121,9 @@ describe Api::V1::OrderProductsController, type: :request do
     before { @order_product = create(:order_product) }
 
     context 'with a valid order ID' do
-      before { delete "/api/v1/order_products/#{@order_product.id}" }
+      before do
+        delete "/api/v1/order_products/#{@order_product.id}", headers: @headers
+      end
 
       it { expect(response).to have_http_status(:ok) }
 
@@ -119,7 +133,7 @@ describe Api::V1::OrderProductsController, type: :request do
     end
 
     context 'with an invalid order product ID' do
-      before { delete '/api/v1/orders/9999' }
+      before { delete '/api/v1/orders/9999', headers: @headers }
 
       it { expect(response).to have_http_status(:not_found) }
     end

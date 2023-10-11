@@ -1,5 +1,8 @@
 class Api::V1::ApiController < ApplicationController
+  include AuthService
   include Paginable
+
+  before_action :authorize
 
   rescue_from ActiveRecord::ActiveRecordError do |_exception|
     render json: { error: 'Internal Server Error' },
