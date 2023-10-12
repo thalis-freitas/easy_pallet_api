@@ -13,3 +13,9 @@ development:
 test:
   <<: *default
   database: easy_pallet_api_test
+
+production:
+  <<: *default
+  database: easy_pallet_api_production
+  username: easy_pallet_api
+  password: <%= ENV["EASY_PALLET_API_DATABASE_PASSWORD"] %>
