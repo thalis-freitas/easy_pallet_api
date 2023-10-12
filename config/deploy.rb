@@ -25,7 +25,6 @@ set :puma_worker_timeout, nil
 set :puma_init_active_record, true
 
 ## Defaults:
-set :scm,           :git
 set :branch,        :main
 set :format,        :pretty
 set :log_level,     :debug
