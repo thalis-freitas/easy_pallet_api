@@ -1,5 +1,5 @@
 # config valid for current version and patch releases of Capistrano
-lock "~> 3.17.3"
+lock '~> 3.17.3'
 
 server '134.209.208.138', port: 22, roles: [:web, :app, :db], primary: true
 
@@ -32,7 +32,9 @@ set :keep_releases, 5
 set :migration_role, :app
 set :conditionally_migrate, true
 
-set :linked_files, %w{config/database.yml config/secrets.yml}
+append :linked_files, %w{config/master.key}
+
+set :linked_files, %w{config/database.yml config/master.key}
 set :linked_dirs,  %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system}
 
 namespace :puma do
@@ -45,6 +47,18 @@ namespace :puma do
   end
 
   before :start, :make_dirs
+end
+
+namespace :deploy do
+  namespace :check do
+    before :linked_files, :set_master_key do
+      on roles(:app), in: :sequence, wait: 10 do
+        unless test("[ -f #{shared_path}/config/master.key ]")
+          upload! 'config/master.key', "#{shared_path}/config/master.key"
+        end
+      end
+    end
+  end
 end
 
 namespace :deploy do
@@ -75,7 +89,6 @@ namespace :deploy do
   end
 
   before :starting,     :check_revision
-  after  :finishing,    :compile_assets
   after  :finishing,    :cleanup
   after  :finishing,    :restart
 end
