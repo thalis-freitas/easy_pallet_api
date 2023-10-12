@@ -13,7 +13,7 @@ set :pty,             true
 set :use_sudo,        false
 set :stage,           :production
 set :deploy_via,      :remote_cache
-set :deploy_to,       "/home/#{fetch(:user)}/easy_pallet_api/#{fetch(:application)}"
+set :deploy_to,       "/home/#{fetch(:user)}/#{fetch(:application)}"
 set :puma_bind,       "unix://#{shared_path}/tmp/sockets/#{fetch(:application)}-puma.sock"
 set :puma_state,      "#{shared_path}/tmp/pids/puma.state"
 set :puma_pid,        "#{shared_path}/tmp/pids/puma.pid"
@@ -32,7 +32,7 @@ set :keep_releases, 5
 set :migration_role, :app
 set :conditionally_migrate, true
 
-set :linked_files, %w{config/database.yml}
+set :linked_files, %w{config/database.yml config/secrets.yml}
 set :linked_dirs,  %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system}
 
 namespace :puma do
@@ -79,3 +79,12 @@ namespace :deploy do
   after  :finishing,    :cleanup
   after  :finishing,    :restart
 end
+
+# upload configuration files
+before 'deploy:starting', 'config_files:upload'
+
+set :initial, true
+
+before 'deploy:migrate', 'database:create' if fetch(:initial)
+
+after 'deploy:publishing', 'application:reload'
