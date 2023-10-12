@@ -79,12 +79,3 @@ namespace :deploy do
   after  :finishing,    :cleanup
   after  :finishing,    :restart
 end
-
-# upload configuration files
-before 'deploy:starting', 'config_files:upload'
-
-set :initial, true
-
-before 'deploy:migrate', 'database:create' if fetch(:initial)
-
-after 'deploy:publishing', 'application:reload'
