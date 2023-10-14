@@ -862,11 +862,9 @@ Este endpoint permite o cadastro de um novo usuário.
 
 ```json
 {
-  "user": {
-    "name": "User",
-    "login": "user_1999",
-    "password": "pass1234"
-  }
+  "name": "User",
+  "login": "user_1999",
+  "password": "pass1234"
 }
 ```
 
@@ -909,10 +907,8 @@ Este endpoint permite a edição de um usuário com base no ID fornecido.
 
 ```json
 {
-  "user": {
-    "login": "user84",
-    "password": "new_password"
-  }
+  "login": "user84",
+  "password": "new_password"
 }
 
 ```

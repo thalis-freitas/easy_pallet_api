@@ -57,9 +57,7 @@ describe Api::V1::UsersController, type: :request do
     context 'successful request' do
       before do
         @user_attributes = attributes_for(:user)
-        post '/api/v1/users',
-             params: { user: @user_attributes },
-             headers: @headers
+        post '/api/v1/users', params: @user_attributes, headers: @headers
       end
 
       it { expect(response).to have_http_status(:created) }
@@ -73,7 +71,7 @@ describe Api::V1::UsersController, type: :request do
     context 'with invalid params' do
       before do
         post '/api/v1/users',
-             params: { user: { password: '123' } },
+             params: { password: '123' },
              headers: @headers
       end
 
@@ -95,7 +93,7 @@ describe Api::V1::UsersController, type: :request do
         create(:user, login: 'user')
 
         post '/api/v1/users',
-             params: { user: { name: 'User', login: 'user', password: 'pass' } },
+             params: { name: 'User', login: 'user', password: 'pass' },
              headers: @headers
       end
 
@@ -114,7 +112,7 @@ describe Api::V1::UsersController, type: :request do
         @user_attributes = attributes_for(:user)
 
         put "/api/v1/users/#{@user.id}",
-            params: { user: @user_attributes },
+            params: @user_attributes,
             headers: @headers
       end
 
