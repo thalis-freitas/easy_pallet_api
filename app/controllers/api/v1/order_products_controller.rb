@@ -1,10 +1,14 @@
 class Api::V1::OrderProductsController < Api::V1::ApiController
   before_action :set_order, only: %i[index create]
-  before_action :set_order_product, only: %i[update destroy]
+  before_action :set_order_product, only: %i[show update destroy]
 
   def index
-    @order_products = @order.order_products
+    @order_products = @order.order_products.order(id: :desc)
     render json: @order_products
+  end
+
+  def show
+    render json: @order_product, status: :ok
   end
 
   def create
