@@ -21,24 +21,28 @@
 
 ### Cargas (Loads)
 - [x] GET /api/v1/loads (Listar todas as cargas com paginação)
+- [x] GET /api/v1/loads/:id (Detalhes de uma carga)
 - [x] POST /api/v1/loads (Criar uma carga)
 - [x] PUT /api/v1/loads/:id (Editar uma carga existente)
 - [x] DELETE /api/v1/loads/:id (Excluir uma carga)
 
 ### Listas (Orders)
-- [x] GET /api/v1/loads/:load_id/orders (Listar todas as listas de uma carga com paginação) 
+- [x] GET /api/v1/loads/:load_id/orders (Listar todas as listas de uma carga com paginação)
+- [x] GET /api/v1/orders/:id (Detalhes de uma lista)
 - [x] POST /api/v1/loads/:load_id/orders (Criar uma nova lista para uma carga)
 - [x] PUT /api/v1/orders/:id (Editar uma lista existente)
 - [x] DELETE /api/v1/orders/:id (Excluir uma lista)
 
 ### Produtos (Products)
 - [x] GET /api/v1/products (Listar todos os produtos com paginação)
+- [x] GET /api/v1/products/:id (Detalhes de um produto)
 - [x] POST /api/v1/products (Criar um novo produto)
 - [x] PUT /api/v1/products/:id (Editar um produto existente)
 - [x] DELETE /api/v1/products/:id (Excluir um produto)
 
 ### Produtos da Lista (OrderProducts)
 - [x] GET /api/v1/orders/:order_id/order_products (Listar produtos de uma lista específica)
+- [x] GET /api/v1/order_products/:id (Detalhes de um produto da lista)
 - [x] POST /api/v1/orders/:order_id/order_products (Adicionar um novo produto a uma lista)
 - [x] PUT /api/v1/order_products/:id (Editar um produto da lista)
 - [x] DELETE /api/v1/order_products/:id (Excluir um produto da lista)
@@ -46,6 +50,7 @@
 ### Usuários (Users)
 
 - [x] GET /api/v1/users (Listar todos os usuários com paginação)
+- [x] GET /api/v1/users/:id (Detalhes de um usuário)
 - [x] POST /api/v1/users (Criar um novo usuário)
 - [x] PUT /api/v1/users/:id (Editar um usuário existente)
 - [x] DELETE /api/v1/users/:id (Excluir um usuário)
@@ -230,6 +235,24 @@ Se a consulta for bem-sucedida, o endpoint retornará um código de status `200 
 }
 ```
 
+## Detalhes de uma Carga
+
+**Endpoint: GET /api/v1/loads/:id**
+
+Este endpoint permite obter detalhes de uma carga específica com base no ID fornecido.
+
+#### Retorno `200` (Sucesso)
+
+Se a consulta for bem-sucedida, o endpoint retornará um código de status 200 OK juntamente com os detalhes da carga solicitada.
+
+```json
+{
+  "id": 1,
+  "code": "EIG924L4",
+  "delivery_date": "2023-10-07"
+}
+```
+
 ## Criação de uma Carga
 
 **Endpoint: POST /api/v1/loads**
@@ -355,6 +378,24 @@ Se a consulta for bem-sucedida, o endpoint retornará um código de status `200 
 
 ```
 
+## Detalhes de uma Lista
+
+**Endpoint: GET /api/v1/orders/:id**
+
+Este endpoint permite obter detalhes de uma lista específica com base no ID fornecido.
+
+#### Retorno `200` (Sucesso)
+
+Se a consulta for bem-sucedida, o endpoint retornará um código de status 200 OK juntamente com os detalhes da lista.
+
+```json
+{
+  "id": 3,
+  "code": "WUT414FXL",
+  "bay": "FS3"
+}
+```
+
 ## Criação de uma Lista
 
 **Endpoint: POST /api/v1/loads/:load_id/orders**
@@ -473,6 +514,23 @@ Se a consulta for bem-sucedida, o endpoint retornará um código de status `200 
 
 ```
 
+## Detalhes de um Produto
+
+**Endpoint: GET /api/v1/products/:id**
+
+Este endpoint permite obter detalhes de um produto específico com base no ID fornecido.
+
+#### Retorno `200` (Sucesso)
+
+Se a consulta for bem-sucedida, o endpoint retornará um código de status 200 OK juntamente com os detalhes do produto.
+
+```json
+{
+  "name": "ULLAM EOS TOTAM MODI",
+  "ballast": "16"
+}
+```
+
 ## Criação de um Produto
 
 **Endpoint: POST /api/v1/products**
@@ -567,7 +625,7 @@ Este endpoint permite obter uma lista com todos os produtos de uma lista.
 
 #### Exemplo de Requisição
 
-GET /api/v1/loads/1/orders?per_page=2&page=5
+GET /api/v1/orders/1/order_products?per_page=2&page=5
 
 #### Retorno `200` (Sucesso)
 
@@ -589,6 +647,23 @@ Se a consulta for bem-sucedida, o endpoint retornará um código de status `200 
   }
 ]
 
+```
+
+## Detalhes de um Produto da Lista
+
+**Endpoint: GET /api/v1/order_products/:id**
+
+Este endpoint permite obter detalhes de um produto da lista específico com base no ID fornecido.
+
+#### Retorno `200` (Sucesso)
+
+Se a consulta for bem-sucedida, o endpoint retornará um código de status 200 OK juntamente com os detalhes do produto da lista.
+
+```json
+{
+  "product_id": 1,
+  "quantity": "5"
+}
 ```
 
 ## Criação de um Produto de uma Lista
@@ -715,6 +790,24 @@ Se a consulta for bem-sucedida, o endpoint retornará um código de status `200 
   }
 }
 
+```
+
+## Detalhes de um Usuário
+
+**Endpoint: GET /api/v1/users/:id**
+
+Este endpoint permite obter detalhes de um usuário com base no ID fornecido.
+
+#### Retorno `200` (Sucesso)
+
+Se a consulta for bem-sucedida, o endpoint retornará um código de status 200 OK juntamente com os detalhes do usuário.
+
+```json
+{
+  "id": 82,
+  "name": "User",
+  "login": "user_1999"
+}
 ```
 
 ## Cadastro de um Usuário

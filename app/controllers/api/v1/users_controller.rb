@@ -1,9 +1,13 @@
 class Api::V1::UsersController < Api::V1::ApiController
-  before_action :set_user, only: %i[update destroy]
+  before_action :set_user, only: %i[show update destroy]
 
   def index
-    @users = User.page(current_page).per(per_page)
+    @users = User.page(current_page).per(per_page).order(id: :desc)
     render_paginated_collection(@users)
+  end
+
+  def show
+    render json: @user, status: :ok
   end
 
   def create

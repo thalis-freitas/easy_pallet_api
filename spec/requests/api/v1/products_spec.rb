@@ -30,6 +30,29 @@ describe Api::V1::ProductsController, type: :request do
     end
   end
 
+  describe 'GET /api/v1/products/:id' do
+    context 'with a valid product ID' do
+      before do
+        @product = create(:product)
+        get "/api/v1/products/#{@product.id}", headers: @headers
+      end
+
+      it { expect(response).to have_http_status(:success) }
+
+      it 'returns the product with the expected attributes' do
+        expect(json[:id]).to eq(@product.id)
+        expect(json[:name]).to eq(@product.name)
+        expect(json[:ballast]).to eq(@product.ballast)
+      end
+    end
+
+    context 'with an invalid product ID' do
+      before { get '/api/v1/products/9999', headers: @headers }
+
+      it { expect(response).to have_http_status(:not_found) }
+    end
+  end
+
   describe 'POST /api/v1/products' do
     context 'successful request' do
       before do

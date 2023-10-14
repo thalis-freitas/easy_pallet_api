@@ -1,9 +1,13 @@
 class Api::V1::ProductsController < Api::V1::ApiController
-  before_action :set_product, only: %i[update destroy]
+  before_action :set_product, only: %i[show update destroy]
 
   def index
-    @products = Product.page(current_page).per(per_page)
+    @products = Product.page(current_page).per(per_page).order(id: :desc)
     render_paginated_collection(@products)
+  end
+
+  def show
+    render json: @product, status: :ok
   end
 
   def create

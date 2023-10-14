@@ -1,10 +1,14 @@
 class Api::V1::OrdersController < Api::V1::ApiController
   before_action :set_load, only: %i[index create]
-  before_action :set_order, only: %i[update destroy]
+  before_action :set_order, only: %i[show update destroy]
 
   def index
-    @orders = @load.orders.page(current_page).per(per_page)
+    @orders = @load.orders.page(current_page).per(per_page).order(id: :desc)
     render_paginated_collection(@orders)
+  end
+
+  def show
+    render json: @order, status: :ok
   end
 
   def create

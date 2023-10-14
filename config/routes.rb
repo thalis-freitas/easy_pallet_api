@@ -3,19 +3,19 @@ Rails.application.routes.draw do
     namespace :v1 do
       post '/login', to: 'auth#login'
 
-      resources :users, except: :show
+      resources :users
 
-      resources :products, except: :show
+      resources :products
 
-      resources :loads, except: :show do
+      resources :loads do
         resources :orders, only: [:index, :create]
       end
 
-      resources :orders, only: [:update, :destroy] do
+      resources :orders, only: [:show, :update, :destroy] do
         resources :order_products, only: [:index, :create]
       end
 
-      resources :order_products, only: [:update, :destroy]
+      resources :order_products, only: [:show, :update, :destroy]
     end
   end
 end
