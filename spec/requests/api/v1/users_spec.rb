@@ -30,6 +30,29 @@ describe Api::V1::UsersController, type: :request do
     end
   end
 
+  describe 'GET /api/v1/users/:id' do
+    context 'with a valid user ID' do
+      before do
+        @user = create(:user)
+        get "/api/v1/users/#{@user.id}", headers: @headers
+      end
+
+      it { expect(response).to have_http_status(:success) }
+
+      it 'returns the user with the expected attributes' do
+        expect(json[:id]).to eq(@user.id)
+        expect(json[:name]).to eq(@user.name)
+        expect(json[:login]).to eq(@user.login)
+      end
+    end
+
+    context 'with an invalid user ID' do
+      before { get '/api/v1/users/9999', headers: @headers }
+
+      it { expect(response).to have_http_status(:not_found) }
+    end
+  end
+
   describe 'POST /api/v1/users' do
     context 'successful request' do
       before do
