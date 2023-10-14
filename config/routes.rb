@@ -7,6 +7,8 @@ Rails.application.routes.draw do
 
       resources :products
 
+      get '/all/products', to: 'products#all'
+
       resources :loads do
         resources :orders, only: [:index, :create]
       end

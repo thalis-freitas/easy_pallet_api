@@ -35,6 +35,7 @@
 
 ### Produtos (Products)
 - [x] GET /api/v1/products (Listar todos os produtos com paginação)
+- [x] GET /api/v1/all/products (Listar todos os produtos sem paginação)
 - [x] GET /api/v1/products/:id (Detalhes de um produto)
 - [x] POST /api/v1/products (Criar um novo produto)
 - [x] PUT /api/v1/products/:id (Editar um produto existente)
@@ -482,7 +483,7 @@ Se a lista for excluída com sucesso, o endpoint retornará um código de status
 
 ## Produtos
 
-## Listar Todos os Produtos
+## Listar Todos os Produtos com Paginação
 
 **Endpoint: GET /api/v1/products**
 
@@ -511,6 +512,39 @@ Se a consulta for bem-sucedida, o endpoint retornará um código de status `200 
     "items_per_page": 2
   }
 }
+
+```
+
+## Listar Todos os Produtos sem Paginação
+
+**Endpoint: GET /api/v1/all/products**
+
+Este endpoint permite obter uma lista com todos os produtos cadastrados no sistema.
+
+#### Exemplo de Requisição
+
+#### Retorno `200` (Sucesso)
+
+Se a consulta for bem-sucedida, o endpoint retornará um código de status `200 OK` juntamente com a lista dos produtos.
+
+```json
+[
+  {
+    "id": 1,
+    "name": "CONSEQUATUR QUASI REICIENDIS ET.",
+    "ballast": "100"
+  },
+  {
+    "id": 2,
+    "name": "EUM EST PERFERENDIS MODI.",
+    "ballast": "33"
+  },
+  {
+    "id": 3,
+    "name": "DOLORUM EVENIET QUIA VOLUPTATEM.",
+    "ballast": "51"
+  }
+]
 
 ```
 

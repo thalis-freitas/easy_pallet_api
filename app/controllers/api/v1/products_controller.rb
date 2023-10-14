@@ -39,6 +39,11 @@ class Api::V1::ProductsController < Api::V1::ApiController
     end
   end
 
+  def all
+    @products = Product.all
+    render json: @products, status: :ok
+  end
+
   private
 
   def product_params
