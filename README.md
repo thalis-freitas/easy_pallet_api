@@ -732,7 +732,7 @@ Se o produto da lista for criado com sucesso, o endpoint retornará um código d
   "id": 5,
   "order_id":1,
   "product_id": 1,
-  "quantity":"0"
+  "quantity":"5"
 }
 ```
 
