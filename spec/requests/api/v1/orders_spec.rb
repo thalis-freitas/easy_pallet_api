@@ -31,6 +31,30 @@ describe Api::V1::OrdersController, type: :request do
     end
   end
 
+  describe 'GET /api/v1/orders/:id' do
+    context 'with a valid order ID' do
+      before do
+        @order = create(:order)
+        get "/api/v1/orders/#{@order.id}", headers: @headers
+      end
+
+      it { expect(response).to have_http_status(:success) }
+
+      it 'returns the order with the expected attributes' do
+        expect(json[:id]).to eq(@order.id)
+        expect(json[:code]).to eq(@order.code)
+        expect(json[:bay]).to eq(@order.bay)
+        expect(json[:load_id]).to eq(@order.load_id)
+      end
+    end
+
+    context 'with an invalid order ID' do
+      before { get '/api/v1/orders/9999', headers: @headers }
+
+      it { expect(response).to have_http_status(:not_found) }
+    end
+  end
+
   describe 'POST /api/v1/loads/:load_id/orders' do
     context 'successful request' do
       before do
