@@ -123,8 +123,8 @@ pt-BR:
       less_than: deve ser menor que %{count}
       less_than_or_equal_to: deve ser menor ou igual a %{count}
       model_invalid: 'A validação falhou: %{errors}'
-      not_a_number: não é um número
-      not_an_integer: não é um número inteiro
+      not_a_number: deve ser um número
+      not_an_integer: deve ser um número inteiro
       odd: deve ser ímpar
       other_than: deve ser diferente de %{count}
       present: deve ficar em branco

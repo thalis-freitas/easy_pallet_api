@@ -128,7 +128,7 @@ describe Api::V1::OrderProductsController, type: :request do
     context 'with invalid params' do
       before do
         put "/api/v1/order_products/#{@order_product.id}",
-            params: { order_product: { quantity: '' } },
+            params: { order_product: { quantity: 0 } },
             headers: @headers
       end
 
@@ -136,7 +136,7 @@ describe Api::V1::OrderProductsController, type: :request do
 
       it 'returns validation errors if order_product is invalid' do
         expect(json[:errors])
-          .to include(quantity: 'Quantidade não pode ficar em branco')
+          .to include(quantity: 'Quantidade deve ser maior ou igual a 1')
       end
     end
   end
