@@ -732,7 +732,7 @@ Se o produto da lista for criado com sucesso, o endpoint retornará um código d
   "id": 5,
   "order_id":1,
   "product_id": 1,
-  "quantity":"10"
+  "quantity":"0"
 }
 ```
 
@@ -743,7 +743,7 @@ Se a validação falhar devido a dados inválidos, o endpoint retornará um cód
 ```json
 {
   "errors": [
-    "quantity": "Quantidade não pode ficar em branco"
+    "quantity": "Quantidade deve ser maior ou igual a 1"
     "product_id": "Produto já está em uso"
   ]
 }
