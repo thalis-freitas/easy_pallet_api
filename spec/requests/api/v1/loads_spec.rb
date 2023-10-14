@@ -38,6 +38,30 @@ describe Api::V1::LoadsController, type: :request do
     end
   end
 
+  describe 'GET /api/v1/loads/:id' do
+    context 'with a valid load ID' do
+      before do
+        @load = create(:load)
+        get "/api/v1/loads/#{@load.id}", headers: @headers
+      end
+
+      it { expect(response).to have_http_status(:success) }
+
+      it 'returns the load with the expected attributes' do
+        expect(json[:id]).to eq(@load.id)
+        expect(json[:code]).to eq(@load.code)
+        expect(json[:delivery_date].to_date)
+          .to eq(@load.delivery_date)
+      end
+    end
+
+    context 'with an invalid load ID' do
+      before { get '/api/v1/loads/9999', headers: @headers }
+
+      it { expect(response).to have_http_status(:not_found) }
+    end
+  end
+
   describe 'POST /api/v1/loads' do
     context 'successful request' do
       before do

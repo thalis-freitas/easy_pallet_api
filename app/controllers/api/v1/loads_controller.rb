@@ -1,9 +1,13 @@
 class Api::V1::LoadsController < Api::V1::ApiController
-  before_action :set_load, only: %i[update destroy]
+  before_action :set_load, only: %i[show update destroy]
 
   def index
-    @loads = Load.page(current_page).per(per_page)
+    @loads = Load.page(current_page).per(per_page).order(id: :desc)
     render_paginated_collection(@loads)
+  end
+
+  def show
+    render json: @load, status: :ok
   end
 
   def create
