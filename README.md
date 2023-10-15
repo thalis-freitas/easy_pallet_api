@@ -935,3 +935,40 @@ Este endpoint permite a exclusão de um usuário com base no ID fornecido.
 Retorno `200` (Sucesso)
 
 Se o usuário for removido com sucesso, o endpoint retornará um código de status `200 Ok`.
+
+## Importação de Dados
+
+### Importar Dados de Usuários
+
+**Endpoint: POST /api/v1/import/users**
+
+Este endpoint permite a importação de novos usuários a partir de um arquivo CSV ou XLSX.
+
+#### Parâmetros de Requisição
+
+| Nome         | Tipo    | Descrição           |
+| ---------    | ------  | ------------------- |
+| `file`       | Arquivo | Arquivo CSV ou XLSX contendo dados de usuários.  |
+
+#### Exemplo de planilha válida
+
+```csv
+name,login,password
+Admin,admin,123456789
+José da Silva,1111,1111
+João da Silva,2222,2222
+Antônio da Silva,3333,3333
+```
+
+Retorno `201` (Sucesso)
+
+Se a importação for bem-sucedida, o endpoint retornará um código de status `201 Created` e os usuários serão criados com base nos dados do arquivo.
+
+Retorno `422` (Erro de Validação)
+
+Se a validação dos dados do arquivo falhar, devido a formato inválido o endpoint retornará um código de status `422 Unprocessable Entity` juntamente com a mensagem de erro de validação.
+
+```json
+{ "error": "Formato de arquivo inválido" }
+
+```
