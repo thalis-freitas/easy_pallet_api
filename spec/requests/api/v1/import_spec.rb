@@ -29,12 +29,12 @@ describe Api::V1::ImportController, type: :request do
         xlsx_file = fixture_file_upload('users/valid.xlsx',
                                         'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
         post '/api/v1/import/users',
-        params: { file: xlsx_file },
-        headers: @headers
+             params: { file: xlsx_file },
+             headers: @headers
       end
 
       it { expect(response).to have_http_status(:created) }
-        
+
       it 'creates 4 users' do
         expect(User.count).to eq(5)
       end
@@ -50,7 +50,6 @@ describe Api::V1::ImportController, type: :request do
       end
 
       it { expect(response).to have_http_status(:unprocessable_entity) }
-        
 
       it 'returns an error message' do
         expect(json).to include(error: 'Formato de arquivo inválido')
@@ -60,10 +59,10 @@ describe Api::V1::ImportController, type: :request do
     context 'when an unexpected error occurs during import' do
       before do
         allow(UserImportService).to receive(:new).and_raise(StandardError)
-        csv_file = fixture_file_upload('users/valid.xlsx', 'text/csv')
+        xlsx_file = fixture_file_upload('users/valid.xlsx', 'text/csv')
 
         post '/api/v1/import/users',
-             params: { file: csv_file },
+             params: { file: xlsx_file },
              headers: @headers
       end
 
