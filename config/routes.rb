@@ -18,6 +18,8 @@ Rails.application.routes.draw do
       end
 
       resources :order_products, only: [:show, :update, :destroy]
+
+      post '/import/users', to: 'import#users'
     end
   end
 end

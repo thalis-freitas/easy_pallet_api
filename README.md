@@ -60,7 +60,7 @@
 
 - [ ] POST /api/v1/loads/import (Importar dados da planilha de cargas)
 - [ ] POST /api/v1/products/import (Importar dados da planilha de produtos)
-- [ ] POST /api/v1/users/import (Importar dados da planilha de usuários)
+- [x] POST /api/v1/users/import (Importar dados da planilha de usuários)
 
 <div align="center">
 :construction: Em desenvolvimento...
@@ -194,7 +194,7 @@ Se o login ou a senha forem inválidos, o endpoint retornará um código de stat
 
 ```json
 {
-  "errors": "Usuário ou senha inválidos"
+  "errors": "Login ou senha inválidos"
 }
 ```
 
@@ -575,7 +575,7 @@ Este endpoint permite a criação de um novo produto.
 
 | Nome      | Tipo   | Descrição           |
 | --------- | ------ | ------------------- |
-| `name`    | String | O nome do produt/o. |
+| `name`    | String | O nome do produto.  |
 | `ballast` | String | O lastro do produto.|
 
 #### Exemplo de Requisição
