@@ -81,9 +81,6 @@ describe Api::V1::ProductsController, type: :request do
 
       it 'returns validation errors if product is invalid' do
         expect(json[:errors]).to include(name: 'Nome não pode ficar em branco')
-
-        expect(json[:errors])
-          .to include(ballast: 'Lastro não pode ficar em branco')
       end
     end
   end
@@ -112,7 +109,7 @@ describe Api::V1::ProductsController, type: :request do
     context 'with invalid params' do
       before do
         @product = create(:product)
-        @invalid_attributes = { ballast: nil }
+        @invalid_attributes = { name: nil }
 
         put "/api/v1/products/#{@product.id}",
             params: { product: @invalid_attributes },

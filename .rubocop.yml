@@ -27,3 +27,6 @@ Style/ClassAndModuleChildren:
 
 Style/FrozenStringLiteralComment:
   Enabled: false
+
+UniqueValidationWithoutIndex:
+  Enabled: false

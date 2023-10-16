@@ -1,3 +1,4 @@
 class Product < ApplicationRecord
-  validates :name, :ballast, presence: true
+  validates :name, presence: true
+  has_many :order_products, dependent: :destroy
 end

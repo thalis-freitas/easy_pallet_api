@@ -21,6 +21,7 @@ Rails.application.routes.draw do
 
       post '/import/users', to: 'import#users'
       post '/import/products', to: 'import#products'
+      post '/import/loads', to: 'import#loads'
     end
   end
 end

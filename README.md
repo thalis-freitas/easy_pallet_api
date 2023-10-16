@@ -58,7 +58,7 @@
 
 ### Importação de Dados
 
-- [ ] POST /api/v1/loads/import (Importar dados da planilha de cargas)
+- [x] POST /api/v1/loads/import (Importar dados da planilha de cargas)
 - [x] POST /api/v1/products/import (Importar dados da planilha de produtos)
 - [x] POST /api/v1/users/import (Importar dados da planilha de usuários)
 
@@ -109,6 +109,17 @@ Execute as migrações:
 ```
 rails db:migrate
 ```
+
+Crie um usuário:
+```
+rails db:seed
+```
+
+* Dados do usuário criado:
+
+| Login | Senha |
+| ----- | ----- |
+| user  | pass  |
 
 ## Como rodar os testes
 
@@ -607,7 +618,6 @@ Se a validação falhar devido a dados inválidos, o endpoint retornará um cód
 {
   "errors": [
     "name":"Nome não pode ficar em branco",
-    "ballast":"Lastro não pode ficar em branco"
   ]
 }
 ```
@@ -743,8 +753,8 @@ Se a validação falhar devido a dados inválidos, o endpoint retornará um cód
 ```json
 {
   "errors": [
-    "quantity": "Quantidade deve ser maior ou igual a 1"
-    "product_id": "Produto já está em uso"
+    "quantity": "Quantidade não pode ficar em branco"
+    "product_id": "Produto é obrigatório(a)"
   ]
 }
 ```
@@ -968,3 +978,9 @@ Este endpoint permite a importação de novos usuários a partir de um arquivo X
 **Endpoint: POST /api/v1/import/products**
 
 Este endpoint permite a importação de novos produtos a partir de um arquivo XLSX.
+
+### Importar Dados de Cargas
+
+**Endpoint: POST /api/v1/import/loads**
+
+Este endpoint permite a importação de novas cargas a partir de um arquivo XLSX.

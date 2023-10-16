@@ -8,7 +8,7 @@ class UserImportService < ImportService
 
     (2..xlsx.last_row).each do |i|
       user_data = get_data(xlsx.row(1), xlsx.row(i))
-      User.create(user_data)
+      User.create!(user_data)
     end
   end
 end

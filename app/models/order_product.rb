@@ -3,7 +3,4 @@ class OrderProduct < ApplicationRecord
   belongs_to :product
 
   validates :quantity, presence: true
-  validates :product_id, uniqueness: { scope: :order_id }
-  validates :quantity,
-            numericality: { only_integer: true, greater_than_or_equal_to: 1 }
 end
