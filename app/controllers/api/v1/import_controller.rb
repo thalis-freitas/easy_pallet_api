@@ -7,11 +7,18 @@ class Api::V1::ImportController < Api::V1::ApiController
     end
   end
 
+  def products
+    if validate_file_format(params[:file])
+      import_products(params[:file])
+    else
+      render_invalid_file_format
+    end
+  end
+
   private
 
   def validate_file_format(file)
-    file.content_type
-        .in?(%w[application/vnd.openxmlformats-officedocument.spreadsheetml.sheet text/csv])
+    file.content_type == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
   end
 
   def render_invalid_file_format
@@ -21,6 +28,13 @@ class Api::V1::ImportController < Api::V1::ApiController
 
   def import_user(file)
     UserImportService.new(file).call
+    render status: :created
+  rescue StandardError
+    render_unexpected_error
+  end
+
+  def import_products(file)
+    ProductImportService.new(file).call
     render status: :created
   rescue StandardError
     render_unexpected_error

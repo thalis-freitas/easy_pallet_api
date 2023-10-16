@@ -4,10 +4,19 @@ class ImportService
   end
 
   def call
-    if @file.content_type == 'text/csv'
-      process_csv
-    elsif @file.content_type == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-      process_xlsx
+    return unless @file.content_type == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+
+    process_file
+  end
+
+  def get_data(headers, row)
+    data = {}
+
+    headers.each_with_index do |column, i|
+      column = column.to_s
+      data[column] = row[i].is_a?(Float) ? row[i].to_i.to_s : row[i].to_s
     end
+
+    data
   end
 end

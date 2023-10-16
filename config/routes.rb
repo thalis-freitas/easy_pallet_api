@@ -20,6 +20,7 @@ Rails.application.routes.draw do
       resources :order_products, only: [:show, :update, :destroy]
 
       post '/import/users', to: 'import#users'
+      post '/import/products', to: 'import#products'
     end
   end
 end

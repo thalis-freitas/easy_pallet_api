@@ -59,7 +59,7 @@
 ### Importação de Dados
 
 - [ ] POST /api/v1/loads/import (Importar dados da planilha de cargas)
-- [ ] POST /api/v1/products/import (Importar dados da planilha de produtos)
+- [x] POST /api/v1/products/import (Importar dados da planilha de produtos)
 - [x] POST /api/v1/users/import (Importar dados da planilha de usuários)
 
 <div align="center">
@@ -938,31 +938,15 @@ Se o usuário for removido com sucesso, o endpoint retornará um código de stat
 
 ## Importação de Dados
 
-### Importar Dados de Usuários
-
-**Endpoint: POST /api/v1/import/users**
-
-Este endpoint permite a importação de novos usuários a partir de um arquivo CSV ou XLSX.
-
 #### Parâmetros de Requisição
 
 | Nome         | Tipo    | Descrição           |
 | ---------    | ------  | ------------------- |
-| `file`       | Arquivo | Arquivo CSV ou XLSX contendo dados de usuários.  |
-
-#### Exemplo de planilha válida
-
-```csv
-name,login,password
-Admin,admin,123456789
-José da Silva,1111,1111
-João da Silva,2222,2222
-Antônio da Silva,3333,3333
-```
+| `file`       | Arquivo | Arquivo XLSX contendo dados de usuários.  |
 
 Retorno `201` (Sucesso)
 
-Se a importação for bem-sucedida, o endpoint retornará um código de status `201 Created` e os usuários serão criados com base nos dados do arquivo.
+Se a importação for bem-sucedida, o endpoint retornará um código de status `201 Created` e os dados serão criados com base nos dados do arquivo.
 
 Retorno `422` (Erro de Validação)
 
@@ -972,3 +956,15 @@ Se a validação dos dados do arquivo falhar, devido a formato inválido o endpo
 { "error": "Formato de arquivo inválido" }
 
 ```
+
+### Importar Dados de Usuários
+
+**Endpoint: POST /api/v1/import/users**
+
+Este endpoint permite a importação de novos usuários a partir de um arquivo XLSX.
+
+### Importar Dados de Produtos
+
+**Endpoint: POST /api/v1/import/products**
+
+Este endpoint permite a importação de novos produtos a partir de um arquivo XLSX.
