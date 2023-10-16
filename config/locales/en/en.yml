@@ -1,4 +1,8 @@
 en:
   errors:
-    login_or_password_invalid: Invalid username or password
+    login_or_password_invalid: Invalid login or password
     unauthorized: Unauthorized access
+
+    import:
+      invalid_file_format: Invalid file format
+      unexpected_error: An unexpected error occurred while processing file

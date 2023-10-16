@@ -1,4 +1,8 @@
 pt-BR:
   errors:
-    login_or_password_invalid: Usuário ou senha inválidos
+    login_or_password_invalid: Login ou senha inválidos
     unauthorized: Acesso não autorizado
+
+    import:
+      invalid_file_format: Formato de arquivo inválido
+      unexpected_error: Ocorreu um erro inesperado ao processar o arquivo

@@ -58,9 +58,9 @@
 
 ### Importação de Dados
 
-- [ ] POST /api/v1/loads/import (Importar dados da planilha de cargas)
-- [ ] POST /api/v1/products/import (Importar dados da planilha de produtos)
-- [ ] POST /api/v1/users/import (Importar dados da planilha de usuários)
+- [x] POST /api/v1/loads/import (Importar dados da planilha de cargas)
+- [x] POST /api/v1/products/import (Importar dados da planilha de produtos)
+- [x] POST /api/v1/users/import (Importar dados da planilha de usuários)
 
 <div align="center">
 :construction: Em desenvolvimento...
@@ -109,6 +109,17 @@ Execute as migrações:
 ```
 rails db:migrate
 ```
+
+Crie um usuário:
+```
+rails db:seed
+```
+
+* Dados do usuário criado:
+
+| Login | Senha |
+| ----- | ----- |
+| user  | pass  |
 
 ## Como rodar os testes
 
@@ -194,7 +205,7 @@ Se o login ou a senha forem inválidos, o endpoint retornará um código de stat
 
 ```json
 {
-  "errors": "Usuário ou senha inválidos"
+  "errors": "Login ou senha inválidos"
 }
 ```
 
@@ -575,7 +586,7 @@ Este endpoint permite a criação de um novo produto.
 
 | Nome      | Tipo   | Descrição           |
 | --------- | ------ | ------------------- |
-| `name`    | String | O nome do produt/o. |
+| `name`    | String | O nome do produto.  |
 | `ballast` | String | O lastro do produto.|
 
 #### Exemplo de Requisição
@@ -607,7 +618,6 @@ Se a validação falhar devido a dados inválidos, o endpoint retornará um cód
 {
   "errors": [
     "name":"Nome não pode ficar em branco",
-    "ballast":"Lastro não pode ficar em branco"
   ]
 }
 ```
@@ -743,8 +753,8 @@ Se a validação falhar devido a dados inválidos, o endpoint retornará um cód
 ```json
 {
   "errors": [
-    "quantity": "Quantidade deve ser maior ou igual a 1"
-    "product_id": "Produto já está em uso"
+    "quantity": "Quantidade não pode ficar em branco"
+    "product_id": "Produto é obrigatório(a)"
   ]
 }
 ```
@@ -935,3 +945,42 @@ Este endpoint permite a exclusão de um usuário com base no ID fornecido.
 Retorno `200` (Sucesso)
 
 Se o usuário for removido com sucesso, o endpoint retornará um código de status `200 Ok`.
+
+## Importação de Dados
+
+#### Parâmetros de Requisição
+
+| Nome         | Tipo    | Descrição           |
+| ---------    | ------  | ------------------- |
+| `file`       | Arquivo | Arquivo XLSX contendo dados de usuários.  |
+
+Retorno `201` (Sucesso)
+
+Se a importação for bem-sucedida, o endpoint retornará um código de status `201 Created` e os dados serão criados com base nos dados do arquivo.
+
+Retorno `422` (Erro de Validação)
+
+Se a validação dos dados do arquivo falhar, devido a formato inválido o endpoint retornará um código de status `422 Unprocessable Entity` juntamente com a mensagem de erro de validação.
+
+```json
+{ "error": "Formato de arquivo inválido" }
+
+```
+
+### Importar Dados de Usuários
+
+**Endpoint: POST /api/v1/import/users**
+
+Este endpoint permite a importação de novos usuários a partir de um arquivo XLSX.
+
+### Importar Dados de Produtos
+
+**Endpoint: POST /api/v1/import/products**
+
+Este endpoint permite a importação de novos produtos a partir de um arquivo XLSX.
+
+### Importar Dados de Cargas
+
+**Endpoint: POST /api/v1/import/loads**
+
+Este endpoint permite a importação de novas cargas a partir de um arquivo XLSX.

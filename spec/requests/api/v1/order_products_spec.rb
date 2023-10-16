@@ -85,12 +85,8 @@ describe Api::V1::OrderProductsController, type: :request do
 
     context 'with invalid params' do
       before do
-        create(:order_product, order: @order, product: @product)
-
-        @invalid_attributes = attributes_for(
-          :order_product,
-          product_id: @product.id
-        )
+        @invalid_attributes = attributes_for(:order_product,
+                                             product_id: '')
 
         post "/api/v1/orders/#{@order.id}/order_products",
              params: { order_product: @invalid_attributes },
@@ -100,7 +96,7 @@ describe Api::V1::OrderProductsController, type: :request do
       it { expect(response).to have_http_status(:unprocessable_entity) }
 
       it 'returns validation errors if order_product is invalid' do
-        expect(json[:errors]).to include(product_id: 'Produto já está em uso')
+        expect(json[:errors]).to include(product: 'Produto é obrigatório(a)')
       end
     end
   end
@@ -128,7 +124,7 @@ describe Api::V1::OrderProductsController, type: :request do
     context 'with invalid params' do
       before do
         put "/api/v1/order_products/#{@order_product.id}",
-            params: { order_product: { quantity: 0 } },
+            params: { order_product: { quantity: '' } },
             headers: @headers
       end
 
@@ -136,7 +132,7 @@ describe Api::V1::OrderProductsController, type: :request do
 
       it 'returns validation errors if order_product is invalid' do
         expect(json[:errors])
-          .to include(quantity: 'Quantidade deve ser maior ou igual a 1')
+          .to include(quantity: 'Quantidade não pode ficar em branco')
       end
     end
   end

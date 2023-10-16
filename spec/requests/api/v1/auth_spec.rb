@@ -32,7 +32,7 @@ describe Api::V1::AuthController, type: :request do
       it { expect(response).to have_http_status(:unprocessable_entity) }
 
       it 'returns an authentication error' do
-        expect(json[:errors]).to include('Usuário ou senha inválidos')
+        expect(json[:errors]).to include('Login ou senha inválidos')
       end
     end
   end

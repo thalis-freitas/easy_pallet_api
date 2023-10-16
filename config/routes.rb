@@ -18,6 +18,10 @@ Rails.application.routes.draw do
       end
 
       resources :order_products, only: [:show, :update, :destroy]
+
+      post '/import/users', to: 'import#users'
+      post '/import/products', to: 'import#products'
+      post '/import/loads', to: 'import#loads'
     end
   end
 end
